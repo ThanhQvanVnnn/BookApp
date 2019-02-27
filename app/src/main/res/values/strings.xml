@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BookApp</string>
+    <string name="trang_chu">Trang Chủ</string>
+    <string name="danh_muc">Danh Mục</string>
+    <string name="tu_sach">Tủ Sách</string>
+    <string name="hoat_dong">Hoạt Động</string>
+    <string name="ca_nhan">Cá Nhân</string>
+    <string name="nhan_back">Nhấn thêm 1 lần nữa để thoát !</string>
+</resources>
