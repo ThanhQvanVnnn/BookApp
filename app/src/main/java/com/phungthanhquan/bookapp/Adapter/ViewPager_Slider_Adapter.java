@@ -3,12 +3,15 @@ package com.phungthanhquan.bookapp.Adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.phungthanhquan.bookapp.Model.Fragment.ModelFragmentTrangChu;
 import com.phungthanhquan.bookapp.Object.Slider;
 import com.phungthanhquan.bookapp.R;
 import com.squareup.picasso.Callback;
@@ -28,7 +31,7 @@ public class ViewPager_Slider_Adapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View sliderLayout = inflater.inflate(R.layout.viewpager_slider,null);
         final ProgressBar progressBar = sliderLayout.findViewById(R.id.progress);
@@ -44,13 +47,19 @@ public class ViewPager_Slider_Adapter extends PagerAdapter {
 
             }
         });
+        slider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,position+"",Toast.LENGTH_LONG).show();
+            }
+        });
         container.addView(sliderLayout);
         return sliderLayout;
     }
 
     @Override
     public int getCount() {
-        return listslider.size();
+       return listslider.size();
     }
 
     @Override
@@ -58,8 +67,10 @@ public class ViewPager_Slider_Adapter extends PagerAdapter {
         return view == o;
     }
 
+
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
     }
+
 }
