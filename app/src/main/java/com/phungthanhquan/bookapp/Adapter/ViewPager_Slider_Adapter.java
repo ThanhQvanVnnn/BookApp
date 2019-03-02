@@ -1,9 +1,11 @@
 package com.phungthanhquan.bookapp.Adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.phungthanhquan.bookapp.Model.Fragment.ModelFragmentTrangChu;
 import com.phungthanhquan.bookapp.Object.Slider;
 import com.phungthanhquan.bookapp.R;
+import com.phungthanhquan.bookapp.View.Activity.BookDetail;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +37,7 @@ public class ViewPager_Slider_Adapter extends PagerAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View sliderLayout = inflater.inflate(R.layout.viewpager_slider,null);
         final ProgressBar progressBar = sliderLayout.findViewById(R.id.progress);
-        ImageView slider = sliderLayout.findViewById(R.id.pager_slider_image);
+        final ImageView slider = sliderLayout.findViewById(R.id.pager_slider_image);
         Picasso.get().load(listslider.get(position).getUrl()).into(slider, new Callback() {
             @Override
             public void onSuccess() {
@@ -50,7 +52,11 @@ public class ViewPager_Slider_Adapter extends PagerAdapter {
         slider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,position+"",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context, BookDetail.class);
+                intent.putExtra("image",listslider.get(position).getImage());
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                        slider,"sharedName");
+                context.startActivity(intent,options.toBundle());
             }
         });
         container.addView(sliderLayout);

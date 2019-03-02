@@ -6,4 +6,8 @@
     <string name="hoat_dong">Hoạt Động</string>
     <string name="ca_nhan">Cá Nhân</string>
     <string name="nhan_back">Nhấn thêm 1 lần nữa để thoát !</string>
+    <string name="xem_tat_ca">Xem tất cả </string>
+    <string name="sach_moi">Sách Mới</string>
+    <string name="khuyen_doc">Sách Khuyên đọc</string>
+    <string name="van_hoc_trongnuoc">Văn Học Trong Nước</string>
 </resources>
