@@ -1,10 +1,13 @@
 package com.phungthanhquan.bookapp.Presenter.Fragment;
 
 import com.phungthanhquan.bookapp.Model.Fragment.TrangChu.ModelFragmentTrangChu;
+import com.phungthanhquan.bookapp.Object.AlbumBook;
 import com.phungthanhquan.bookapp.Object.ItemBook;
+import com.phungthanhquan.bookapp.Object.NXB;
 import com.phungthanhquan.bookapp.Object.Slider;
 import com.phungthanhquan.bookapp.View.InterfaceView.InterfaceViewFragmentTrangChu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PresenterFragmentTrangChu implements PresenterInterfaceFragmentTrangChu{
@@ -46,6 +49,22 @@ public class PresenterFragmentTrangChu implements PresenterInterfaceFragmentTran
         List<ItemBook> dsSachVanHocTrongNuoc = modelFragmentTrangChu.getDataDsSachVanHocTrongNuoc();
         if(dsSachVanHocTrongNuoc.size()>0){
             interfaceViewFragmentTrangChu.hienthidsSachVanHocTrongNuoc(dsSachVanHocTrongNuoc);
+        }
+    }
+
+    @Override
+    public void xuliHienThiDsNhaXuatBan() {
+        List<NXB> dsNXB = modelFragmentTrangChu.getDataDsNhaXuatBan();
+        if(dsNXB.size()>0){
+            interfaceViewFragmentTrangChu.hienthidsNhaXuatBan(dsNXB);
+        }
+    }
+
+    @Override
+    public void xuliHienThiAlBumSach() {
+        List<AlbumBook> dsAlbum = modelFragmentTrangChu.getDataDsAlBum();
+        if (dsAlbum.size()>0){
+            interfaceViewFragmentTrangChu.hienthiAlbumSach(dsAlbum);
         }
     }
 }

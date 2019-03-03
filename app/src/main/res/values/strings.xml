@@ -10,4 +10,6 @@
     <string name="sach_moi">Sách Mới</string>
     <string name="khuyen_doc">Sách Khuyên đọc</string>
     <string name="van_hoc_trongnuoc">Văn Học Trong Nước</string>
+    <string name="nha_xuat_ban">Nhà Xuất Bản</string>
+    <string name="album_sach">Bộ Sách Hay Nhất</string>
 </resources>

@@ -5,4 +5,6 @@ public interface PresenterInterfaceFragmentTrangChu {
     void xuliHienthiDsSachMoi();
     void xuliHienthiDsSachKhuyenDoc();
     void xuliHienthiDsSachVanHocTrongNuoc();
+    void xuliHienThiDsNhaXuatBan();
+    void xuliHienThiAlBumSach();
 }

@@ -1,6 +1,8 @@
 package com.phungthanhquan.bookapp.Model.Fragment.TrangChu;
 
+import com.phungthanhquan.bookapp.Object.AlbumBook;
 import com.phungthanhquan.bookapp.Object.ItemBook;
+import com.phungthanhquan.bookapp.Object.NXB;
 import com.phungthanhquan.bookapp.Object.Slider;
 
 import java.util.ArrayList;
@@ -8,7 +10,10 @@ import java.util.List;
 
 public class ModelFragmentTrangChu {
     private List<Slider> sliderList ;
-    private List<ItemBook> dsSachMois ;
+    private List<ItemBook> dsSach ;
+    private List<NXB> dsNXB;
+    private List<AlbumBook> dsAlbum;
+
     //lấy danh sách slider từ api
     public List<Slider> getDataSlider(){
         sliderList = new ArrayList<>();
@@ -25,7 +30,7 @@ public class ModelFragmentTrangChu {
 
     //lấy ds sách mới
     public List<ItemBook> getDataDsSachMoi(){
-        dsSachMois = new ArrayList<>();
+        dsSach = new ArrayList<>();
         ItemBook itemBook1 = new ItemBook("Hoa vàng trên đồi cỏ",
                 "https://webtruyen.com/public/images/toithayhoavangtrencoxanh1woCMXi6Ln.jpg",
                 "15");
@@ -38,28 +43,28 @@ public class ModelFragmentTrangChu {
         ItemBook itemBook4 = new ItemBook("Khi lỗi thuộc về những vì sao",
                 "https://www.fahasa.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/k/h/khi-loi-thuoc-ve-nhung-vi-sao-b.jpg",
                 "15");
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        return dsSachMois;
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        return dsSach;
     }
 
     //lấy ds sách khuyên đọc
     public List<ItemBook> getDataDsSachKhuyenDoc(){
-        dsSachMois = new ArrayList<>();
+        dsSach = new ArrayList<>();
         ItemBook itemBook1 = new ItemBook("Hoa vàng trên đồi cỏ",
                 "https://webtruyen.com/public/images/toithayhoavangtrencoxanh1woCMXi6Ln.jpg",
                 "15");
@@ -72,28 +77,28 @@ public class ModelFragmentTrangChu {
         ItemBook itemBook4 = new ItemBook("Khi lỗi thuộc về những vì sao",
                 "https://www.fahasa.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/k/h/khi-loi-thuoc-ve-nhung-vi-sao-b.jpg",
                 "15");
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        return dsSachMois;
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        return dsSach;
     }
 
     //lấy ds sách văn học trong nước
     public List<ItemBook> getDataDsSachVanHocTrongNuoc(){
-        dsSachMois = new ArrayList<>();
+        dsSach = new ArrayList<>();
         ItemBook itemBook1 = new ItemBook("Hoa vàng trên đồi cỏ",
                 "https://webtruyen.com/public/images/toithayhoavangtrencoxanh1woCMXi6Ln.jpg",
                 "15");
@@ -106,23 +111,61 @@ public class ModelFragmentTrangChu {
         ItemBook itemBook4 = new ItemBook("Khi lỗi thuộc về những vì sao",
                 "https://www.fahasa.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/k/h/khi-loi-thuoc-ve-nhung-vi-sao-b.jpg",
                 "15");
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        dsSachMois.add(itemBook1);
-        dsSachMois.add(itemBook2);
-        dsSachMois.add(itemBook3);
-        dsSachMois.add(itemBook4);
-        return dsSachMois;
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        dsSach.add(itemBook1);
+        dsSach.add(itemBook2);
+        dsSach.add(itemBook3);
+        dsSach.add(itemBook4);
+        return dsSach;
+    }
+
+    //lấy ds NXB
+    public List<NXB> getDataDsNhaXuatBan(){
+        dsNXB = new ArrayList<>();
+        NXB nxb1 = new NXB("http://static.ybox.vn/2016/04/26/4.jpg");
+        NXB nxb2 = new NXB("https://www.luatvietphong.vn/Uploads/nxb.jpg");
+        NXB nxb3 = new NXB("http://nxbthongtintruyenthong.vn/vi/0/Home/Image?url=%2Ffiles%2Fabout%2Flogo_NXB_resize.jpg");
+        NXB nxb4 = new NXB("https://cdnmedia.thethaovanhoa.vn/2012/11/04/06/49/randomhousepenguin.jpg");
+        NXB nxb5 = new NXB("https://salt.tikicdn.com/ts/publisher/82/d3/ca/60ce90db68e224cc2900be7ae41db451.png");
+        NXB nxb6 = new NXB("http://hieusach.vn/upload/8415/20140123/logo_nxbphunu.jpg");
+        dsNXB.add(nxb1);
+        dsNXB.add(nxb2);
+        dsNXB.add(nxb3);
+        dsNXB.add(nxb4);
+        dsNXB.add(nxb5);
+        dsNXB.add(nxb6);
+        return dsNXB;
+    }
+    //lấy ds Abum
+    public List<AlbumBook> getDataDsAlBum(){
+        dsAlbum = new ArrayList<>();
+        AlbumBook albumBook1 = new AlbumBook("https://i.ebayimg.com/images/i/120924634585-0-1/s-l1000.jpg",
+                "Game Of Thrones");
+        AlbumBook albumBook2 = new AlbumBook("https://images-na.ssl-images-amazon.com/images/I/5177950yDnL._SX357_BO1,204,203,200_.jpg",
+                "Sherlock Home");
+        AlbumBook albumBook3 = new AlbumBook("https://2.bp.blogspot.com/-gaZEhjncrq0/VxWrgWAwEaI/AAAAAAAAAnI/t0cFpyZNWQcZkEKE5Igqjgw5ALzhah7rwCLcB/s1600/Tam%2Bquoc%2Bdien%2Bnghia.jpg",
+                "Tam Quốc Diễn Nghĩa");
+        AlbumBook albumBook4 = new AlbumBook("http://4.bp.blogspot.com/_AvKWRV6Vm3E/TJOGJJb6lLI/AAAAAAAAA7I/kdmHSjYFl9E/s1600/1250405904_1249394460_Sach_Harry_Potter.jpg",
+                "Harry Potter");
+        AlbumBook albumBook5 = new AlbumBook("https://product.hstatic.net/1000331139/product/21.jpg",
+                "Nhân tố Enzyme");
+        dsAlbum.add(albumBook1);
+        dsAlbum.add(albumBook2);
+        dsAlbum.add(albumBook3);
+        dsAlbum.add(albumBook4);
+        dsAlbum.add(albumBook5);
+        return dsAlbum;
     }
 
 }
