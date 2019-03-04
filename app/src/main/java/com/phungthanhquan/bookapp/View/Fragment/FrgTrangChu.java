@@ -1,5 +1,7 @@
 package com.phungthanhquan.bookapp.View.Fragment;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,18 +12,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextSwitcher;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
+import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 import com.phungthanhquan.bookapp.Adapter.ListAlbum_Adapter;
 import com.phungthanhquan.bookapp.Adapter.RecycleView_ItemBook_Adapter;
 import com.phungthanhquan.bookapp.Adapter.RecycleView_NXB_Adapter;
@@ -32,7 +30,9 @@ import com.phungthanhquan.bookapp.Object.NXB;
 import com.phungthanhquan.bookapp.Object.Slider;
 import com.phungthanhquan.bookapp.Presenter.Fragment.PresenterFragmentTrangChu;
 import com.phungthanhquan.bookapp.R;
+import com.phungthanhquan.bookapp.View.Activity.BookDetail;
 import com.phungthanhquan.bookapp.View.Activity.ListBookToChoice;
+import com.phungthanhquan.bookapp.View.Activity.SearchBook;
 import com.phungthanhquan.bookapp.View.InterfaceView.InterfaceViewFragmentTrangChu;
 
 import java.util.ArrayList;
@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 
 public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangChu, View.OnClickListener {
 
@@ -55,11 +54,10 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private RecyclerView hienthiDSNhaXuatBan;
     private TextView allSachMoi;
     private TextView allSachVanHocTrongNuoc;
+    private ImageButton search;
 
-    private FeatureCoverFlow albumCoverflow;
-    private ListAlbum_Adapter listAlbum_adapter;
     private List<AlbumBook> albumBook = new ArrayList<>();
-    private TextSwitcher mtitle;
+     private HorizontalInfiniteCycleViewPager pager_album;
 
     @Nullable
     @Override
@@ -79,12 +77,13 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         hienthiDSNhaXuatBan = view.findViewById(R.id.recycle_nhaxuatban);
         allSachMoi = view.findViewById(R.id.xemtatca_sachmoi);
         allSachVanHocTrongNuoc = view.findViewById(R.id.xemtatca_vanhoctrongnuoc);
-        albumCoverflow = view.findViewById(R.id.album_sach);
-        mtitle = view.findViewById(R.id.title);
+         pager_album = view.findViewById(R.id.horizontal_cycle);
+         search = view.findViewById(R.id.search_book);
 
         //onclick
         allSachMoi.setOnClickListener(this);
         allSachVanHocTrongNuoc.setOnClickListener(this);
+        search.setOnClickListener(this);
 
         //presenter logic
         presenterFragmentTrangChu = new PresenterFragmentTrangChu(this);
@@ -106,6 +105,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
         indicator.setupWithViewPager(slider, true);
+
     }
 
     @Override
@@ -113,6 +113,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         RecycleView_ItemBook_Adapter dsSachMoiAdapter = new RecycleView_ItemBook_Adapter(getContext(), dsSachMoi);
         hienthiDSSachMoi.setAdapter(dsSachMoiAdapter);
         hienthiDSSachMoi.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        hienthiDSSachMoi.setHasFixedSize(true);
     }
 
     @Override
@@ -121,6 +122,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         hienthiDSSachKhuyenDoc.setAdapter(dsSachKhuyenDocAdapter);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         hienthiDSSachKhuyenDoc.setLayoutManager(layoutManager);
+        hienthiDSSachKhuyenDoc.setHasFixedSize(true);
     }
 
     @Override
@@ -128,6 +130,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         RecycleView_ItemBook_Adapter dsSachVanHocTrongNuocAdapter = new RecycleView_ItemBook_Adapter(getContext(), dsSachVanHocTrongNuoc);
         hienthiDSSachVanHocTrongNuoc.setAdapter(dsSachVanHocTrongNuocAdapter);
         hienthiDSSachVanHocTrongNuoc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        hienthiDSSachVanHocTrongNuoc.setHasFixedSize(true);
     }
 
     @Override
@@ -135,35 +138,15 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         RecycleView_NXB_Adapter dsNXBAdapter = new RecycleView_NXB_Adapter(getContext(), dsNXB);
         hienthiDSNhaXuatBan.setAdapter(dsNXBAdapter);
         hienthiDSNhaXuatBan.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        hienthiDSNhaXuatBan.setHasFixedSize(true);
     }
 
     @Override
     public void hienthiAlbumSach(List<AlbumBook> albumBooks) {
         albumBook = albumBooks;
-        mtitle.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                TextView txt = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.title_album_layout, null);
-                return txt;
-            }
-        });
-        Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top);
-        Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.silde_out_bottom);
-        mtitle.setInAnimation(in);
-        mtitle.setOutAnimation(out);
-        listAlbum_adapter = new ListAlbum_Adapter(getContext(), albumBook);
-        albumCoverflow.setAdapter(listAlbum_adapter);
-        albumCoverflow.setOnScrollPositionListener(new FeatureCoverFlow.OnScrollPositionListener() {
-            @Override
-            public void onScrolledToPosition(int position) {
-                mtitle.setText(albumBook.get(position).getTitleAlbum());
-            }
+        ListAlbum_Adapter adapter = new ListAlbum_Adapter(albumBook,getContext());
+        pager_album.setAdapter(adapter);
 
-            @Override
-            public void onScrolling() {
-
-            }
-        });
     }
 
     @Override
@@ -177,6 +160,12 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
             case R.id.xemtatca_vanhoctrongnuoc:
                 intent = new Intent(getContext(), ListBookToChoice.class);
                 startActivity(intent);
+                break;
+            case R.id.search_book:
+                 intent = new Intent(getContext(), SearchBook.class);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) getActivity(),
+                        search,"sharebutton");
+                getActivity().startActivity(intent,options.toBundle());
                 break;
         }
     }
@@ -201,5 +190,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
             });
         }
     }
+
 }
 

@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.Activity.BookDetail">
 
-    <ImageView
-        android:layout_marginLeft="150dp"
-        android:transitionName="sharedName"
-        android:scaleType="centerCrop"
-        android:id="@+id/detail_book_image"
-        android:layout_width="100dp"
-        android:layout_height="130dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_bookDetail"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:id="@+id/detail_book_image"
+            android:layout_width="100dp"
+            android:layout_height="130dp"
+            android:layout_marginLeft="150dp"
+            android:scaleType="centerCrop"
+            android:transitionName="sharedName" />
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

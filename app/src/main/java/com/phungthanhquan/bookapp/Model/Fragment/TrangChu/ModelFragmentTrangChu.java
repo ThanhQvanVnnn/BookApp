@@ -150,15 +150,15 @@ public class ModelFragmentTrangChu {
     //lấy ds Abum
     public List<AlbumBook> getDataDsAlBum(){
         dsAlbum = new ArrayList<>();
-        AlbumBook albumBook1 = new AlbumBook("https://i.ebayimg.com/images/i/120924634585-0-1/s-l1000.jpg",
+        AlbumBook albumBook1 = new AlbumBook("https://images-na.ssl-images-amazon.com/images/I/51OMI4Jez3L._SX260_.jpg",
                 "Game Of Thrones");
         AlbumBook albumBook2 = new AlbumBook("https://images-na.ssl-images-amazon.com/images/I/5177950yDnL._SX357_BO1,204,203,200_.jpg",
                 "Sherlock Home");
-        AlbumBook albumBook3 = new AlbumBook("https://2.bp.blogspot.com/-gaZEhjncrq0/VxWrgWAwEaI/AAAAAAAAAnI/t0cFpyZNWQcZkEKE5Igqjgw5ALzhah7rwCLcB/s1600/Tam%2Bquoc%2Bdien%2Bnghia.jpg",
+        AlbumBook albumBook3 = new AlbumBook("https://sachvui.com/cover/2015/tam-quoc-dien-nghia.jpg",
                 "Tam Quốc Diễn Nghĩa");
-        AlbumBook albumBook4 = new AlbumBook("http://4.bp.blogspot.com/_AvKWRV6Vm3E/TJOGJJb6lLI/AAAAAAAAA7I/kdmHSjYFl9E/s1600/1250405904_1249394460_Sach_Harry_Potter.jpg",
+        AlbumBook albumBook4 = new AlbumBook("https://www.fahasa.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/c/o/combo-1.jpg",
                 "Harry Potter");
-        AlbumBook albumBook5 = new AlbumBook("https://product.hstatic.net/1000331139/product/21.jpg",
+        AlbumBook albumBook5 = new AlbumBook("https://www.sachkhaitam.com/Data/Sites/1/Product/10376/combo-04-cuon-nhan-to-enzyme.png",
                 "Nhân tố Enzyme");
         dsAlbum.add(albumBook1);
         dsAlbum.add(albumBook2);

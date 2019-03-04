@@ -1,67 +1,80 @@
 package com.phungthanhquan.bookapp.Adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.phungthanhquan.bookapp.Object.AlbumBook;
 import com.phungthanhquan.bookapp.R;
+import com.phungthanhquan.bookapp.View.Activity.ListBookToChoice;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ListAlbum_Adapter extends BaseAdapter {
+/**
+ * Created by reale on 4/20/2017.
+ */
 
-    private Context context;
-    private List<AlbumBook> dsAlbum;
+public class ListAlbum_Adapter extends PagerAdapter {
 
-    public ListAlbum_Adapter(Context context, List<AlbumBook> dsAlbum) {
+    List<AlbumBook> lstImages;
+    Context context;
+    LayoutInflater layoutInflater;
+
+    public ListAlbum_Adapter(List<AlbumBook> lstImages, Context context) {
+        this.lstImages = lstImages;
         this.context = context;
-        this.dsAlbum = dsAlbum;
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return dsAlbum.size();
+        return lstImages.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return dsAlbum.get(position);
+    public boolean isViewFromObject(View view, Object object) {
+        return view.equals(object);
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((View)object);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        AlbumBook albumBook = (AlbumBook) getItem(position);
-        if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_albumbook,null);
-            viewHolder = new ViewHolder();
-            viewHolder.image_album = convertView.findViewById(R.id.image_album);
-            viewHolder.title_album = convertView.findViewById(R.id.label_album);
-            convertView.setTag(viewHolder);
-        }else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        Picasso.get().load(albumBook.getImageAlbum()).into(viewHolder.image_album);
-        viewHolder.title_album.setText(albumBook.getTitleAlbum());
-        return convertView;
+    public Object instantiateItem(final ViewGroup container, final int position) {
+        View view = layoutInflater.inflate(R.layout.item_albumbook,container,false);
+        final ImageView imageView = view.findViewById(R.id.image_album);
+        final TextView  title = view.findViewById(R.id.title_album);
+        Picasso.get().load(lstImages.get(position).getImageAlbum()).into(imageView);
+        title.setText(lstImages.get(position).getTitleAlbum());
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ListBookToChoice.class);
+                Pair<View, String> p1 = Pair.create((View)imageView, "shareImage");
+                Pair<View, String> p2 = Pair.create((View)title, "shareTitle");
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((Activity)context, p1, p2);
+                intent.putExtra("image",lstImages.get(position).getImageAlbum());
+                intent.putExtra("title",lstImages.get(position).getTitleAlbum());
+                context.startActivity(intent, options.toBundle());
+            }
+        });
+        container.addView(view);
+        return view;
     }
-    class ViewHolder{
-       TextView title_album;
-        ImageView image_album;
 
-        public ViewHolder() {
 
-        }
-    }
 }

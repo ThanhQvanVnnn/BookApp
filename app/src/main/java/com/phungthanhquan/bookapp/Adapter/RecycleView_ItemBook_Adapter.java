@@ -75,7 +75,7 @@ public class RecycleView_ItemBook_Adapter extends RecyclerView.Adapter<RecycleVi
 
     @Override
     public int getItemCount() {
-        return 8;
+        return dsSach.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

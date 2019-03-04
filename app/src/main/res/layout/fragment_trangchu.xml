@@ -42,6 +42,7 @@
                         android:textSize="20sp" />
 
                     <ImageButton
+                        android:id="@+id/search_book"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -57,9 +58,11 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scroll_trangchu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,6 +77,7 @@
                         android:id="@+id/pager_slider"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -130,41 +134,48 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycle_sachmoi"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:scrollbars="vertical"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="40dp"
-                    android:background="@color/colorPrimary"></View>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/album_sach"
-                    android:textAllCaps="true"
-                    android:textStyle="" />
-                <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
-                    android:id="@+id/album_sach"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:coverHeight="150dp"
-                    app:coverWidth="130dp"
-                    app:maxScaleFactor="1.5"
-                    app:reflectionGap="0px"
-                    app:scalingThreshold="0.5"
-                    app:rotationThreshold="0.5"
-                    app:spacing="0.6"/>
+                    android:background="@drawable/background_album"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/album_sach"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textStyle="" />
+
+                    <com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager
+                        android:id="@+id/horizontal_cycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        app:icvp_center_page_scale_offset="30dp"
+                        app:icvp_interpolator="@android:anim/accelerate_decelerate_interpolator"
+                        app:icvp_max_page_scale="0.8"
+                        app:icvp_medium_scaled="false"
+                        app:icvp_min_page_scale="0.55"
+                        app:icvp_min_page_scale_offset="5dp"
+                        app:icvp_scroll_duration="250" />
+                </LinearLayout>
+
                 <TextSwitcher
 
                     android:id="@+id/title"
-                    android:paddingBottom="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
 
                 </TextSwitcher>
 
@@ -211,7 +222,8 @@
                         android:id="@+id/recycle_vanhoctrongnuoc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp" />
+                        android:layout_marginTop="10dp"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
                 </LinearLayout>
 
                 <View
@@ -223,20 +235,19 @@
                     android:background="@color/colorPrimary"></View>
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:textAllCaps="true"
                     android:gravity="center"
                     android:text="@string/nha_xuat_ban"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:textAllCaps="true" />
 
                 <android.support.v7.widget.RecyclerView
-
                     android:id="@+id/recycle_nhaxuatban"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_marginTop="10dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v7.widget.RecyclerView>
 
 
                 <View
@@ -276,6 +287,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         app:spanCount="6" />
                 </LinearLayout>
 
