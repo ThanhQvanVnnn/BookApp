@@ -12,4 +12,8 @@
     <string name="van_hoc_trongnuoc">Văn Học Trong Nước</string>
     <string name="nha_xuat_ban">Nhà Xuất Bản</string>
     <string name="album_sach">Bộ Sách Hay Nhất</string>
+    <string name="mua_sach">Mua Sách</string>
+    <string name="thue_sach">Thuê Sách</string>
+    <string name="tom_tat_noi_dung">Nội dung sách</string>
+    <string name="chia_se_cam_nhan">Chia sẻ cảm nhận</string>
 </resources>

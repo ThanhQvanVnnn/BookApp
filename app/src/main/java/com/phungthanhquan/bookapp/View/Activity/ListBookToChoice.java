@@ -24,9 +24,7 @@ public class ListBookToChoice extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listbooktochoice);
         initControls();
-        Intent intent =getIntent();
-        title.setText(intent.getStringExtra("title"));
-        Picasso.get().load(intent.getStringExtra("image")).into(image);
+
     }
 
     private void initControls() {
@@ -34,5 +32,19 @@ public class ListBookToChoice extends AppCompatActivity {
         listBookToChoice = findViewById(R.id.recycle_listallchoice);
         title = findViewById(R.id.listbooktochoice_Title);
         image = findViewById(R.id.image_listbooktochoice);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        Intent intent =getIntent();
+        title.setText(intent.getStringExtra("title"));
+        Picasso.get().load(intent.getStringExtra("image")).into(image);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }
