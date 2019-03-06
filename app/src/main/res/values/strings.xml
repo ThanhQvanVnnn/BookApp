@@ -16,4 +16,12 @@
     <string name="thue_sach">Thuê Sách</string>
     <string name="tom_tat_noi_dung">Nội dung sách</string>
     <string name="chia_se_cam_nhan">Chia sẻ cảm nhận</string>
+    <string name="binh_luan">Bình Luận</string>
+    <string name="xem_them_nhan_xet">Xem thêm nhận xét</string>
+    <string name="ten_tac_gia">Tác giả:</string>
+    <string name="nha_xuat_ban_kitu">NXB:</string>
+    <string name="ngay_phat_hanh">Ngày phát hành:</string>
+    <string name="so_trang">Số trang:</string>
+    <string name="viet_nam_dong">vnđ</string>
+    <string name="chi_tiet_sach">Chi tiết sách</string>
 </resources>

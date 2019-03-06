@@ -32,4 +32,5 @@ dependencies {
 //    implementation 'com.github.moondroid.coverflow:library:1.0'
     implementation 'com.github.devlight:infinitecycleviewpager:1.0.2'
     implementation 'com.ms-square:expandableTextView:0.1.4'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 }
