@@ -17,10 +17,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/white"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        android:background="@drawable/bacground_toolbar_chitietsach"
         app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
         app:itemTextAppearanceInactive="@style/BottomNavigationView"
-        app:labelVisibilityMode="labeled"
         app:menu="@menu/menu_bottom_navigation"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>
 

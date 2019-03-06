@@ -12,8 +12,7 @@
     <string name="van_hoc_trongnuoc">Văn Học Trong Nước</string>
     <string name="nha_xuat_ban">Nhà Xuất Bản</string>
     <string name="album_sach">Bộ Sách Hay Nhất</string>
-    <string name="mua_sach">Mua Sách</string>
-    <string name="thue_sach">Thuê Sách</string>
+    <string name="doc_sach">Đọc Sách</string>
     <string name="tom_tat_noi_dung">Nội dung sách</string>
     <string name="chia_se_cam_nhan">Chia sẻ cảm nhận</string>
     <string name="binh_luan">Bình Luận</string>
@@ -24,4 +23,8 @@
     <string name="so_trang">Số trang:</string>
     <string name="viet_nam_dong">vnđ</string>
     <string name="chi_tiet_sach">Chi tiết sách</string>
+    <string name="danh_gia">Đánh Giá</string>
+    <string name="noi_dung">Nội dung</string>
+    <string name="gui">Gửi đánh giá</string>
+    <string name="nhan_xet_khac">Nhận xét khác</string>
 </resources>

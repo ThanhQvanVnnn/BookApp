@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,6 +57,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private TextView allSachMoi;
     private TextView allSachVanHocTrongNuoc;
     private ImageButton search;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private List<AlbumBook> albumBook = new ArrayList<>();
      private HorizontalInfiniteCycleViewPager pager_album;
@@ -79,7 +82,25 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         allSachVanHocTrongNuoc = view.findViewById(R.id.xemtatca_vanhoctrongnuoc);
          pager_album = view.findViewById(R.id.horizontal_cycle);
          search = view.findViewById(R.id.search_book);
-
+         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
+         swipeRefreshLayout.setColorSchemeColors(android.R.color.holo_blue_dark,android.R.color.holo_blue_light,android.R.color.holo_green_dark);
+         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+             @Override
+             public void onRefresh() {
+                 swipeRefreshLayout.setRefreshing(true);
+                 (new Handler()).postDelayed(new Runnable() {
+                     @Override
+                     public void run() {
+                         swipeRefreshLayout.setRefreshing(false);
+                         presenterFragmentTrangChu.xulislider();
+                         presenterFragmentTrangChu.xuliHienthiDsSachMoi();
+                         presenterFragmentTrangChu.xuliHienthiDsSachKhuyenDoc();
+                         presenterFragmentTrangChu.xuliHienthiDsSachVanHocTrongNuoc();
+                         presenterFragmentTrangChu.xuliHienThiDsNhaXuatBan();
+                         presenterFragmentTrangChu.xuliHienThiAlBumSach();
+                     }
+                 },3000);
+         }});
         //onclick
         allSachMoi.setOnClickListener(this);
         allSachVanHocTrongNuoc.setOnClickListener(this);

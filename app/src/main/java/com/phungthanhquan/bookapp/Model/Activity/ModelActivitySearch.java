@@ -9,6 +9,7 @@ public class ModelActivitySearch {
 
     private List<ItemBook> itemBooks;
 
+    //tìm kiếm sách bằng từ khóa
     public List<ItemBook> getDataSachSearch(String kytu){
         itemBooks = new ArrayList<>();
         ItemBook itemBook1 = new ItemBook("Hoa vàng trên đồi cỏ",

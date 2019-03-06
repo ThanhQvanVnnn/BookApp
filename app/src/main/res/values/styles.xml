@@ -13,10 +13,14 @@
     </style>
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="RatingBar" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressTint" tools:targetApi="lollipop">@color/duskYellow</item>
+    </style>
+
+    <style name="RatingBar_dialog" parent="Theme.AppCompat">
         <item name="android:progressTint" tools:targetApi="lollipop">@color/duskYellow</item>
     </style>
 

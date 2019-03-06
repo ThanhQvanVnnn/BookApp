@@ -1,14 +1,21 @@
 package com.phungthanhquan.bookapp.View.Activity;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +35,7 @@ import java.util.Formatter;
 import java.util.List;
 import java.util.Locale;
 
-public class BookDetail extends AppCompatActivity implements InterfaceViewActivityDetailBook {
+public class BookDetail extends AppCompatActivity implements InterfaceViewActivityDetailBook, View.OnClickListener {
     private ImageView detailbook_image;
     private Toolbar toolbar;
     private TextView tenSach;
@@ -40,13 +47,14 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
     private TextView sotrang;
     private TextView giatien;
     private TextView menhgia;
-    private Button muaSach;
-    private Button thueSach;
+    private Button docsach;
     private ExpandableTextView noidungSach;
     private Button chiaSeCamNhan;
     private PresenterBookDetail presenterBookDetail;
     private RecyclerView recycle_DsDanhGia;
     private List<BinhLuan> dsBinhLuan;
+    private Dialog dialogCamNhan;
+    private LinearLayout xemThemDanhGia;
     RecycleView_noidungbinhluan_Adapter recycleView_noidungbinhluan_adapter;
 
     @Override
@@ -54,6 +62,8 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
         InitControls();
+        chiaSeCamNhan.setOnClickListener(this);
+        xemThemDanhGia.setOnClickListener(this);
     }
 
     private void InitControls() {
@@ -61,8 +71,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         tenSach = findViewById(R.id.textview_tensach);
         ratingSach = findViewById(R.id.raiting_tong);
         soluongdanhgia = findViewById(R.id.textview_soluongdanhgia);
-        muaSach = findViewById(R.id.button_muasach);
-        thueSach = findViewById(R.id.button_thuesach);
+        docsach = findViewById(R.id.button_docsach);
         noidungSach = findViewById(R.id.expand_text_view);
         tentacgia = findViewById(R.id.texview_tentacgia);
         ngayphathanh = findViewById(R.id.textview_ngayphathanh);
@@ -72,6 +81,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         menhgia = findViewById(R.id.textview_menhgia);
         chiaSeCamNhan = findViewById(R.id.button_chiasecamnhan);
         recycle_DsDanhGia = findViewById(R.id.recycle_danhsachdanhgia);
+        xemThemDanhGia = findViewById(R.id.xemthemdanhgia);
         Intent intent = getIntent();
 //        String idSach = intent.getStringExtra("iD");
 //        String urlImage = getIntent().getStringExtra("image");
@@ -118,5 +128,30 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         recycle_DsDanhGia.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recycle_DsDanhGia.setHasFixedSize(false);
         recycle_DsDanhGia.setNestedScrollingEnabled(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.button_chiasecamnhan:
+                dialogCamNhan = new Dialog(this);
+                dialogCamNhan.setContentView(R.layout.dialog_danhgia);
+                TextView txtClose = dialogCamNhan.findViewById(R.id.textview_cancel);
+                txtClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogCamNhan.dismiss();
+                    }
+                });
+                dialogCamNhan.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialogCamNhan.show();
+                break;
+            case R.id.xemthemdanhgia:
+                Intent intent = new Intent(this,XemThemDanhGia.class);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
+                        chiaSeCamNhan,"chiasecamnhan");
+                startActivity(intent,options.toBundle());
+                break;
+        }
     }
 }

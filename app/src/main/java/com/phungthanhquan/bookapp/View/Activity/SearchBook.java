@@ -39,7 +39,7 @@ public class SearchBook extends AppCompatActivity implements InterfaceViewActivi
         recyclerViewTimKiem = findViewById(R.id.recycle_searchbook);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.white));
+//        toolbar.setBackgroundColor(getResources().getColor(R.color.white));
         presenterLogicSearch = new PresenterLogicSearch(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -9,6 +9,8 @@ import java.util.List;
 public class ModelActivityDetailBook {
     private Book books;
     private List<BinhLuan> binhLuanList;
+
+    //lấy sách từ id sách
     public Book getBook(){
         books = new Book("1","https://webtruyen.com/public/images/toithayhoavangtrencoxanh1woCMXi6Ln.jpg"
                 ,"Tôi thấy hoa vàng trên cỏ xanh"
@@ -29,6 +31,8 @@ public class ModelActivityDetailBook {
         ,257);
         return books;
     }
+
+    //lấy danh sách bình luận từ id sách
     public List<BinhLuan> getListBinhLuan(){
         binhLuanList = new ArrayList<>();
         BinhLuan binhLuan1 = new BinhLuan("1"
@@ -54,7 +58,11 @@ public class ModelActivityDetailBook {
                 ,"Nguyễn Thị"
                 ,5
                 ,"6/3/2019"
-                ,"Nội dung sắc sảo, qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+                ,"Nội dung sắc sảo, qqqqqqqqqqqqqqqqqqqqqqqqqqqqqhgiufgdaoufguigsfiugouagdougsouafgiusagfiugfuqsgdiuagfiyshgiyfdiyasfsiyFIYSASIYDTUIASGDIYSATDIYASFDYASFIYGIqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+        binhLuanList.add(binhLuan1);
+        binhLuanList.add(binhLuan2);
+        binhLuanList.add(binhLuan3);
+        binhLuanList.add(binhLuan4);
         binhLuanList.add(binhLuan1);
         binhLuanList.add(binhLuan2);
         binhLuanList.add(binhLuan3);
