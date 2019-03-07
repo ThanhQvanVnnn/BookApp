@@ -66,8 +66,11 @@ public class RecycleView_ItemBook_Adapter extends RecyclerView.Adapter<RecycleVi
             public void onClick(View v) {
                 Intent intent = new Intent(context, BookDetail.class);
                 intent.putExtra("image",dsSach.get(position).getUrlImage());
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
-                            viewHolder.imageSach,"sharedName");
+                ActivityOptions options = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                                viewHolder.imageSach,"sharedName");
+                }
                 context.startActivity(intent,options.toBundle());
             }
         });
@@ -89,4 +92,5 @@ public class RecycleView_ItemBook_Adapter extends RecyclerView.Adapter<RecycleVi
             progressBar = itemView.findViewById(R.id.progress_itembook);
         }
     }
+
 }

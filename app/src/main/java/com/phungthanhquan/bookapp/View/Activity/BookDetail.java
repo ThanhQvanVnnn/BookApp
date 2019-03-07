@@ -147,6 +147,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                 });
                 dialogCamNhan.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialogCamNhan.show();
+                dialogCamNhan.setCanceledOnTouchOutside(false);
                 break;
             case R.id.xemthemdanhgia:
                 Intent intent = new Intent(this,XemThemDanhGia.class);

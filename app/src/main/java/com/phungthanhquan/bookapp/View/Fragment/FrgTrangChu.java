@@ -10,14 +10,17 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,8 @@ import com.phungthanhquan.bookapp.Adapter.ListAlbum_Adapter;
 import com.phungthanhquan.bookapp.Adapter.RecycleView_ItemBook_Adapter;
 import com.phungthanhquan.bookapp.Adapter.RecycleView_NXB_Adapter;
 import com.phungthanhquan.bookapp.Adapter.ViewPager_Slider_Adapter;
+import com.phungthanhquan.bookapp.Model.LoadMore.InterfaceLoadMore;
+import com.phungthanhquan.bookapp.Model.LoadMore.LoadMoreScroll;
 import com.phungthanhquan.bookapp.Object.AlbumBook;
 import com.phungthanhquan.bookapp.Object.ItemBook;
 import com.phungthanhquan.bookapp.Object.NXB;
@@ -54,6 +59,8 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private TextView allSachMoi;
     private TextView allSachVanHocTrongNuoc;
     private ImageButton search;
+    private ProgressBar progressBarLoadMoreKhuyenDoc;
+    private NestedScrollView nestedScrollView;
 
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -73,6 +80,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private RecycleView_NXB_Adapter adapterNXB;
     private RecycleView_ItemBook_Adapter adapterVanHocTrongNuoc;
     private  RecycleView_ItemBook_Adapter adapterSachKhuyenDoc;
+    private  RecyclerView.LayoutManager layoutManagerSachKhuyenDoc;
     private   RecycleView_ItemBook_Adapter adapterSachMoi;
     @Nullable
     @Override
@@ -82,6 +90,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         CreateAdapterAddView();
         ActivePresenter();
         RefresherLayout();
+        OnsCroll();
         return view;
     }
 
@@ -99,6 +108,8 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         pager_album = view.findViewById(R.id.horizontal_cycle);
         search = view.findViewById(R.id.search_book);
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
+        progressBarLoadMoreKhuyenDoc = view.findViewById(R.id.progressLoadMoreKhuyenDoc);
+        nestedScrollView = view.findViewById(R.id.scroll_trangchu);
         //onclick
         allSachMoi.setOnClickListener(this);
         allSachVanHocTrongNuoc.setOnClickListener(this);
@@ -184,10 +195,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         adapterSachMoi = new RecycleView_ItemBook_Adapter(getContext(), danhSachSachMoi);
 
         //slider
-        int sizesliderList = sliderList.size();
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
-        indicator.setupWithViewPager(slider, true);
         slider.setAdapter(slider_Adapter);
         //album
         pager_album.setAdapter(adapterAlbum);
@@ -201,12 +208,15 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         hienthiDSSachVanHocTrongNuoc.setHasFixedSize(true);
         //khuyên đọc
         hienthiDSSachKhuyenDoc.setAdapter(adapterSachKhuyenDoc);
-        hienthiDSSachKhuyenDoc.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        layoutManagerSachKhuyenDoc = new GridLayoutManager(getContext(), 3);
+        hienthiDSSachKhuyenDoc.setLayoutManager(layoutManagerSachKhuyenDoc);
         hienthiDSSachKhuyenDoc.setHasFixedSize(true);
         //sách mới
+        adapterSachMoi.setHasStableIds(true);
         hienthiDSSachMoi.setAdapter(adapterSachMoi);
         hienthiDSSachMoi.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         hienthiDSSachMoi.setHasFixedSize(true);
+
     }
 
     private void ActivePresenter() {
@@ -216,6 +226,10 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         presenterFragmentTrangChu.xuliHienthiDsSachVanHocTrongNuoc();
         presenterFragmentTrangChu.xuliHienThiDsNhaXuatBan();
         presenterFragmentTrangChu.xuliHienThiAlBumSach();
+        int sizesliderList = sliderList.size();
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
+        indicator.setupWithViewPager(slider, true);
     }
 
     public void RefresherLayout(){
@@ -243,6 +257,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
             }});
     }
 
+
     class TimeWork extends TimerTask {
         int sizesliderList;
 
@@ -264,5 +279,41 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         }
     }
 
+    public void OnsCroll(){
+        if (nestedScrollView != null) {
+
+            nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                    String TAG = "nested_sync";
+                    int sizeListSachKhuyenDoc = danhSachKhuyenDoc.size();
+                    List<ItemBook> dsSachLayVe = new ArrayList<>();
+                    if (scrollY > oldScrollY) {
+//                        Log.i(TAG, "Scroll DOWN");
+                    }
+                    if (scrollY < oldScrollY) {
+//                        Log.i(TAG, "Scroll UP");
+                    }
+
+                    if (scrollY == 0) {
+//                        Log.i(TAG, "TOP SCROLL");
+                    }
+
+                    if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+                        hienthiDSSachKhuyenDoc.setNestedScrollingEnabled(false);
+//                        Log.i(TAG, "BOTTOM SCROLL");
+                        progressBarLoadMoreKhuyenDoc.setVisibility(View.VISIBLE);
+                        dsSachLayVe = presenterFragmentTrangChu.xuliHienThiDsKhuyenDocLoadMore(sizeListSachKhuyenDoc,
+                                progressBarLoadMoreKhuyenDoc,hienthiDSSachKhuyenDoc);
+                        if (dsSachLayVe.size()!=0) //check for scroll down
+                        {
+                            danhSachKhuyenDoc.addAll(dsSachLayVe);
+                            adapterSachKhuyenDoc.notifyDataSetChanged();
+                        }
+                    }
+                }
+            });
+        }
+    }
 }
 

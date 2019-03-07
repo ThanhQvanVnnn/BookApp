@@ -68,9 +68,9 @@
             <android.support.v4.widget.NestedScrollView
                 android:id="@+id/scroll_trangchu"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:overScrollMode="never">
+               >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -284,7 +284,6 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
                                 android:gravity="center"
-
                                 android:text="@string/khuyen_doc"
                                 android:textAllCaps="true"
                                 android:textStyle="" />
@@ -292,13 +291,32 @@
 
                         </LinearLayout>
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recycle_sachkhuyendoc"
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recycle_sachkhuyendoc"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                app:spanCount="6" >
+
+                            </android.support.v7.widget.RecyclerView>
+                        <LinearLayout
+                            android:gravity="center"
+                            android:background="@drawable/bacground_toolbar_chitietsach"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                            app:spanCount="6" />
+                            android:layout_height="wrap_content">
+
+                            <ProgressBar
+                                android:indeterminateTint="@color/white"
+                                android:layout_gravity="center"
+                                android:id="@+id/progressLoadMoreKhuyenDoc"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginBottom="2dp" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
 

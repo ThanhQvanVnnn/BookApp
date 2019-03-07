@@ -1,5 +1,10 @@
 package com.phungthanhquan.bookapp.Presenter.Fragment;
 
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
+
 import com.phungthanhquan.bookapp.Model.Fragment.TrangChu.ModelFragmentTrangChu;
 import com.phungthanhquan.bookapp.Object.AlbumBook;
 import com.phungthanhquan.bookapp.Object.ItemBook;
@@ -42,6 +47,14 @@ public class PresenterFragmentTrangChu implements PresenterInterfaceFragmentTran
         if(dsSachKhuyenDoc.size()>0){
             interfaceViewFragmentTrangChu.hienthidsSachKhuyenDoc(dsSachKhuyenDoc);
         }
+    }
+    public List<ItemBook> xuliHienThiDsKhuyenDocLoadMore(int tongItem, ProgressBar progressBar, RecyclerView recyclerView){
+        List<ItemBook> dsSachKhuyenDocLoadMore = modelFragmentTrangChu.getDataDsSachKhuyenDoc();
+        if(dsSachKhuyenDocLoadMore.size()==0) {
+            recyclerView.setNestedScrollingEnabled(true);
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+        return dsSachKhuyenDocLoadMore;
     }
 
     @Override

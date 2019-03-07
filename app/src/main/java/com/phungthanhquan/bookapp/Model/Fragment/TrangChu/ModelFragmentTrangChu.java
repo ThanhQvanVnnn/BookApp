@@ -83,15 +83,9 @@ public class ModelFragmentTrangChu {
         dsSach.add(itemBook4);
         dsSach.add(itemBook1);
         dsSach.add(itemBook2);
-        dsSach.add(itemBook3);
         dsSach.add(itemBook4);
         dsSach.add(itemBook1);
         dsSach.add(itemBook2);
-        dsSach.add(itemBook3);
-        dsSach.add(itemBook4);
-        dsSach.add(itemBook1);
-        dsSach.add(itemBook2);
-        dsSach.add(itemBook3);
         dsSach.add(itemBook4);
         return dsSach;
     }
