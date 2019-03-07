@@ -13,6 +13,9 @@ public class Book {
     private String noidung_sach;
     private int soluong_danhgia;
 
+    public Book() {
+    }
+
     public Book(String id_sach, String hinhanh_sach, String ten_sach, String ten_tacgia, String NXB, int so_trang, String ngayphathanh, int giatien_sach, int sosao_danhgia, String noidung_sach, int soluong_danhgia) {
         this.id_sach = id_sach;
         this.hinhanh_sach = hinhanh_sach;

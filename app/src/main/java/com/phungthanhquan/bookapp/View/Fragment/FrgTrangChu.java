@@ -45,11 +45,8 @@ import java.util.TimerTask;
 
 public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangChu, View.OnClickListener {
 
-    private List<Slider> sliderList;
-    private ViewPager_Slider_Adapter slider_Adapter;
     private TabLayout indicator;
     private ViewPager slider;
-    private PresenterFragmentTrangChu presenterFragmentTrangChu;
     private RecyclerView hienthiDSSachMoi;
     private RecyclerView hienthiDSSachKhuyenDoc;
     private RecyclerView hienthiDSSachVanHocTrongNuoc;
@@ -57,18 +54,37 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private TextView allSachMoi;
     private TextView allSachVanHocTrongNuoc;
     private ImageButton search;
+
+
     private SwipeRefreshLayout swipeRefreshLayout;
+    private PresenterFragmentTrangChu presenterFragmentTrangChu;
 
-    private List<AlbumBook> albumBook = new ArrayList<>();
-     private HorizontalInfiniteCycleViewPager pager_album;
 
+    private List<Slider> sliderList;
+    private List<AlbumBook> albumBook;
+    private List<NXB> danhSachNXB;
+    private List<ItemBook> danhSachVanHocTrongNuoc;
+    private List<ItemBook> danhSachKhuyenDoc;
+    private List<ItemBook> danhSachSachMoi;
+
+    private ListAlbum_Adapter adapterAlbum;
+    private ViewPager_Slider_Adapter slider_Adapter;
+    private HorizontalInfiniteCycleViewPager pager_album;
+    private RecycleView_NXB_Adapter adapterNXB;
+    private RecycleView_ItemBook_Adapter adapterVanHocTrongNuoc;
+    private  RecycleView_ItemBook_Adapter adapterSachKhuyenDoc;
+    private   RecycleView_ItemBook_Adapter adapterSachMoi;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trangchu, container, false);
         InitControls(view);
+        CreateAdapterAddView();
+        ActivePresenter();
+        RefresherLayout();
         return view;
     }
+
 
     private void InitControls(View view) {
         //binding id
@@ -80,94 +96,52 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         hienthiDSNhaXuatBan = view.findViewById(R.id.recycle_nhaxuatban);
         allSachMoi = view.findViewById(R.id.xemtatca_sachmoi);
         allSachVanHocTrongNuoc = view.findViewById(R.id.xemtatca_vanhoctrongnuoc);
-         pager_album = view.findViewById(R.id.horizontal_cycle);
-         search = view.findViewById(R.id.search_book);
-         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
-         swipeRefreshLayout.setColorSchemeColors(android.R.color.holo_blue_dark,android.R.color.holo_blue_light,android.R.color.holo_green_dark);
-         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-             @Override
-             public void onRefresh() {
-                 swipeRefreshLayout.setRefreshing(true);
-                 (new Handler()).postDelayed(new Runnable() {
-                     @Override
-                     public void run() {
-                         swipeRefreshLayout.setRefreshing(false);
-                         presenterFragmentTrangChu.xulislider();
-                         presenterFragmentTrangChu.xuliHienthiDsSachMoi();
-                         presenterFragmentTrangChu.xuliHienthiDsSachKhuyenDoc();
-                         presenterFragmentTrangChu.xuliHienthiDsSachVanHocTrongNuoc();
-                         presenterFragmentTrangChu.xuliHienThiDsNhaXuatBan();
-                         presenterFragmentTrangChu.xuliHienThiAlBumSach();
-                     }
-                 },3000);
-         }});
+        pager_album = view.findViewById(R.id.horizontal_cycle);
+        search = view.findViewById(R.id.search_book);
+        swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         //onclick
         allSachMoi.setOnClickListener(this);
         allSachVanHocTrongNuoc.setOnClickListener(this);
         search.setOnClickListener(this);
-
         //presenter logic
         presenterFragmentTrangChu = new PresenterFragmentTrangChu(this);
-        presenterFragmentTrangChu.xulislider();
-        presenterFragmentTrangChu.xuliHienthiDsSachMoi();
-        presenterFragmentTrangChu.xuliHienthiDsSachKhuyenDoc();
-        presenterFragmentTrangChu.xuliHienthiDsSachVanHocTrongNuoc();
-        presenterFragmentTrangChu.xuliHienThiDsNhaXuatBan();
-        presenterFragmentTrangChu.xuliHienThiAlBumSach();
     }
 
 
     @Override
     public void hienthislider(List<Slider> sliderListReturn) {
-        sliderList = sliderListReturn;
-        slider_Adapter = new ViewPager_Slider_Adapter(getContext(), sliderList);
-        slider.setAdapter(slider_Adapter);
-        int sizesliderList = sliderList.size();
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
-        indicator.setupWithViewPager(slider, true);
-
+        sliderList.addAll(sliderListReturn);
+        slider_Adapter.notifyDataSetChanged();
     }
 
     @Override
     public void hienthidsSachmoi(List<ItemBook> dsSachMoi) {
-        RecycleView_ItemBook_Adapter dsSachMoiAdapter = new RecycleView_ItemBook_Adapter(getContext(), dsSachMoi);
-        hienthiDSSachMoi.setAdapter(dsSachMoiAdapter);
-        hienthiDSSachMoi.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        hienthiDSSachMoi.setHasFixedSize(true);
+        danhSachSachMoi.addAll(dsSachMoi);
+        adapterSachMoi.notifyDataSetChanged();
     }
 
     @Override
     public void hienthidsSachKhuyenDoc(List<ItemBook> dsSachKhuyenDoc) {
-        RecycleView_ItemBook_Adapter dsSachKhuyenDocAdapter = new RecycleView_ItemBook_Adapter(getContext(), dsSachKhuyenDoc);
-        hienthiDSSachKhuyenDoc.setAdapter(dsSachKhuyenDocAdapter);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
-        hienthiDSSachKhuyenDoc.setLayoutManager(layoutManager);
-        hienthiDSSachKhuyenDoc.setHasFixedSize(true);
+        danhSachKhuyenDoc.addAll(dsSachKhuyenDoc);
+        adapterSachKhuyenDoc.notifyDataSetChanged();
     }
 
     @Override
     public void hienthidsSachVanHocTrongNuoc(List<ItemBook> dsSachVanHocTrongNuoc) {
-        RecycleView_ItemBook_Adapter dsSachVanHocTrongNuocAdapter = new RecycleView_ItemBook_Adapter(getContext(), dsSachVanHocTrongNuoc);
-        hienthiDSSachVanHocTrongNuoc.setAdapter(dsSachVanHocTrongNuocAdapter);
-        hienthiDSSachVanHocTrongNuoc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        hienthiDSSachVanHocTrongNuoc.setHasFixedSize(true);
+        danhSachVanHocTrongNuoc.addAll(dsSachVanHocTrongNuoc);
+        adapterVanHocTrongNuoc.notifyDataSetChanged();
     }
 
     @Override
     public void hienthidsNhaXuatBan(List<NXB> dsNXB) {
-        RecycleView_NXB_Adapter dsNXBAdapter = new RecycleView_NXB_Adapter(getContext(), dsNXB);
-        hienthiDSNhaXuatBan.setAdapter(dsNXBAdapter);
-        hienthiDSNhaXuatBan.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        hienthiDSNhaXuatBan.setHasFixedSize(true);
+        danhSachNXB.addAll(dsNXB);
+        adapterNXB.notifyDataSetChanged();
     }
 
     @Override
     public void hienthiAlbumSach(List<AlbumBook> albumBooks) {
-        albumBook = albumBooks;
-        ListAlbum_Adapter adapter = new ListAlbum_Adapter(albumBook,getContext());
-        pager_album.setAdapter(adapter);
-
+        albumBook.addAll(albumBooks);
+        adapterAlbum.notifyDataSetChanged();
     }
 
     @Override
@@ -184,11 +158,89 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                 break;
             case R.id.search_book:
                  intent = new Intent(getContext(), SearchBook.class);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) getActivity(),
-                        search,"sharebutton");
+                ActivityOptions options = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    options = ActivityOptions.makeSceneTransitionAnimation((Activity) getActivity(),
+                            search,"sharebutton");
+                }
                 getActivity().startActivity(intent,options.toBundle());
                 break;
         }
+    }
+
+    private void CreateAdapterAddView() {
+        sliderList = new ArrayList<>();
+        albumBook = new ArrayList<>();
+        danhSachNXB = new ArrayList<>();
+        danhSachVanHocTrongNuoc = new ArrayList<>();
+        danhSachKhuyenDoc = new ArrayList<>();
+        danhSachSachMoi = new ArrayList<>();
+
+        slider_Adapter = new ViewPager_Slider_Adapter(getContext(), sliderList);
+        adapterAlbum = new ListAlbum_Adapter(albumBook,getContext());
+        adapterNXB = new RecycleView_NXB_Adapter(getContext(), danhSachNXB);
+        adapterVanHocTrongNuoc = new RecycleView_ItemBook_Adapter(getContext(), danhSachVanHocTrongNuoc);
+        adapterSachKhuyenDoc = new RecycleView_ItemBook_Adapter(getContext(), danhSachKhuyenDoc);
+        adapterSachMoi = new RecycleView_ItemBook_Adapter(getContext(), danhSachSachMoi);
+
+        //slider
+        int sizesliderList = sliderList.size();
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
+        indicator.setupWithViewPager(slider, true);
+        slider.setAdapter(slider_Adapter);
+        //album
+        pager_album.setAdapter(adapterAlbum);
+        //NXB
+        hienthiDSNhaXuatBan.setAdapter(adapterNXB);
+        hienthiDSNhaXuatBan.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        hienthiDSNhaXuatBan.setHasFixedSize(true);
+        //văn học trong nước
+        hienthiDSSachVanHocTrongNuoc.setAdapter(adapterVanHocTrongNuoc);
+        hienthiDSSachVanHocTrongNuoc.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        hienthiDSSachVanHocTrongNuoc.setHasFixedSize(true);
+        //khuyên đọc
+        hienthiDSSachKhuyenDoc.setAdapter(adapterSachKhuyenDoc);
+        hienthiDSSachKhuyenDoc.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        hienthiDSSachKhuyenDoc.setHasFixedSize(true);
+        //sách mới
+        hienthiDSSachMoi.setAdapter(adapterSachMoi);
+        hienthiDSSachMoi.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        hienthiDSSachMoi.setHasFixedSize(true);
+    }
+
+    private void ActivePresenter() {
+        presenterFragmentTrangChu.xulislider();
+        presenterFragmentTrangChu.xuliHienthiDsSachMoi();
+        presenterFragmentTrangChu.xuliHienthiDsSachKhuyenDoc();
+        presenterFragmentTrangChu.xuliHienthiDsSachVanHocTrongNuoc();
+        presenterFragmentTrangChu.xuliHienThiDsNhaXuatBan();
+        presenterFragmentTrangChu.xuliHienThiAlBumSach();
+    }
+
+    public void RefresherLayout(){
+
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_dark)
+                ,getResources().getColor(android.R.color.holo_blue_light)
+                ,getResources().getColor(android.R.color.holo_orange_light));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sliderList.clear();
+                        albumBook.clear();
+                        danhSachNXB.clear();
+                        danhSachVanHocTrongNuoc.clear();
+                        danhSachKhuyenDoc.clear();
+                        danhSachSachMoi.clear();
+                        ActivePresenter();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                },3000);
+            }});
     }
 
     class TimeWork extends TimerTask {
