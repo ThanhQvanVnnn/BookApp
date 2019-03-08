@@ -303,12 +303,12 @@
                             </android.support.v7.widget.RecyclerView>
                         <LinearLayout
                             android:gravity="center"
-                            android:background="@drawable/bacground_toolbar_chitietsach"
+                            android:background="@color/white"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <ProgressBar
-                                android:indeterminateTint="@color/white"
+                                android:indeterminateTint="@color/colorPrimary"
                                 android:layout_gravity="center"
                                 android:id="@+id/progressLoadMoreKhuyenDoc"
                                 android:layout_width="30dp"

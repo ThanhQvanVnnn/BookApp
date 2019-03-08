@@ -54,7 +54,7 @@ public class ModelActivityDetailBook {
                 ,"30/4/1863"
                 ,"Cũng tạm ổn");
         BinhLuan binhLuan4 = new BinhLuan("4"
-                ,"https://znews-photo.zadn.vn/w660/Uploaded/NEG_Dzyrecp/2014_09_11/1493111_593127044096893_961088004_n.jpg"
+                ,"http://thuthuat123.com/uploads/2018/01/27/anh-dai-dien-dep-nhat-70_095736.jpg"
                 ,"Nguyễn Thị"
                 ,5
                 ,"6/3/2019"

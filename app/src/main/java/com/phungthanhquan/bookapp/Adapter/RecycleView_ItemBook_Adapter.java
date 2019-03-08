@@ -47,6 +47,7 @@ public class RecycleView_ItemBook_Adapter extends RecyclerView.Adapter<RecycleVi
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
+
         viewHolder.titleSach.setText(dsSach.get(position).getTitle());
         Picasso.get().load(dsSach.get(position).getUrlImage()).into(viewHolder.imageSach, new Callback() {
             @Override
@@ -60,20 +61,26 @@ public class RecycleView_ItemBook_Adapter extends RecyclerView.Adapter<RecycleVi
             }
         });
 
-        //click itembook go to detail book
-        viewHolder.imageSach.setOnClickListener(new View.OnClickListener() {
+        new Thread(new Runnable() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, BookDetail.class);
-                intent.putExtra("image",dsSach.get(position).getUrlImage());
-                ActivityOptions options = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
-                                viewHolder.imageSach,"sharedName");
-                }
-                context.startActivity(intent,options.toBundle());
+            public void run() {
+                viewHolder.imageSach.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, BookDetail.class);
+                        intent.putExtra("image",dsSach.get(position).getUrlImage());
+                        ActivityOptions options = null;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                            options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                                    viewHolder.imageSach,"sharedName");
+                        }
+                        context.startActivity(intent,options.toBundle());
+                    }
+                });
             }
-        });
+        }).start();
+        //click itembook go to detail book
+
     }
 
     @Override
