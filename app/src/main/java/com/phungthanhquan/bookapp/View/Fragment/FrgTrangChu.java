@@ -273,12 +273,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                 break;
             case R.id.search_book:
                  intent = new Intent(getContext(), SearchBook.class);
-                ActivityOptions options = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    options = ActivityOptions.makeSceneTransitionAnimation((Activity) getActivity(),
-                            search,"sharebutton");
-                }
-                getActivity().startActivity(intent,options.toBundle());
+                getActivity().startActivity(intent);
                 break;
         }
     }
@@ -473,8 +468,8 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                 @Override
                 public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 //                    String TAG = "nested_sync";
-                    int sizeListSachKhuyenDoc = danhSachKhuyenDoc.size();
-                    List<ItemBook> dsSachLayVe = new ArrayList<>();
+                    final int sizeListSachKhuyenDoc = danhSachKhuyenDoc.size();
+
                     if (scrollY > oldScrollY) {
 //                        Log.i(TAG, "Scroll DOWN");
                     }
@@ -488,15 +483,25 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
 
                     if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
                         hienthiDSSachKhuyenDoc.setNestedScrollingEnabled(false);
-//                        Log.i(TAG, "BOTTOM SCROLL");
                         progressBarLoadMoreKhuyenDoc.setVisibility(View.VISIBLE);
-                        dsSachLayVe = presenterFragmentTrangChu.xuliHienThiDsKhuyenDocLoadMore(sizeListSachKhuyenDoc,
-                                progressBarLoadMoreKhuyenDoc,hienthiDSSachKhuyenDoc);
-                        if (dsSachLayVe.size()!=0) //check for scroll down
-                        {
-                            danhSachKhuyenDoc.addAll(dsSachLayVe);
-                            adapterSachKhuyenDoc.notifyDataSetChanged();
-                        }
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                List<ItemBook> dsSachLayVe = new ArrayList<>();
+                                dsSachLayVe = presenterFragmentTrangChu.xuliHienThiDsKhuyenDocLoadMore(sizeListSachKhuyenDoc,
+                                        progressBarLoadMoreKhuyenDoc,hienthiDSSachKhuyenDoc);
+                                if (dsSachLayVe.size()!=0) //check for scroll down
+                                {
+                                    danhSachKhuyenDoc.addAll(dsSachLayVe);
+                                    adapterSachKhuyenDoc.notifyDataSetChanged();
+                                }
+
+                            }
+                        },1000);
+//                        Log.i(TAG, "BOTTOM SCROLL");
+
+
                     }
                 }
             });

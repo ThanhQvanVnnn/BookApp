@@ -1,6 +1,5 @@
 package com.phungthanhquan.bookapp.View.Activity;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Intent;
@@ -21,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.phungthanhquan.bookapp.Adapter.RecycleView_noidungbinhluan_Adapter;
@@ -35,11 +33,10 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
 import java.util.Locale;
 
-public class BookDetail extends AppCompatActivity implements InterfaceViewActivityDetailBook, View.OnClickListener {
+public class BookDetail extends AppCompatActivity implements InterfaceViewActivityDetailBook, View.OnClickListener  {
     private ImageView detailbook_image;
     private Toolbar toolbar;
     private TextView tenSach;
@@ -71,6 +68,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         setContentView(R.layout.activity_book_detail);
         InitControls();
         RefreshTrang();
+        docsach.setOnClickListener(this);
         chiaSeCamNhan.setOnClickListener(this);
         xemThemDanhGia.setOnClickListener(this);
     }
@@ -134,6 +132,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()){
             case R.id.button_chiasecamnhan:
                 dialogCamNhan = new Dialog(this);
@@ -150,7 +149,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                 dialogCamNhan.setCanceledOnTouchOutside(false);
                 break;
             case R.id.xemthemdanhgia:
-                Intent intent = new Intent(this,XemThemDanhGia.class);
+                 intent = new Intent(this,XemThemDanhGia.class);
                 ActivityOptions options = null;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     options = ActivityOptions.makeSceneTransitionAnimation(this,
@@ -158,24 +157,29 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                 }
                 startActivity(intent,options.toBundle());
                 break;
+            case R.id.button_docsach:
+                intent = new Intent(this, ChonGoiMuaSach.class);
+                intent.putExtra("idSach","id0");
+                startActivity(intent);
+                break;
         }
     }
-    public void chensach(Book book){
+    public void chensach(final Book book){
         if(book!=null) {
-            Picasso.get().load(book.getHinhanh_sach()).into(detailbook_image);
-            tenSach.setText(book.getTen_sach());
-            noidungSach.setText(book.getNoidung_sach());
-            ratingSach.setRating(book.getSosao_danhgia());
-            soluongdanhgia.setText(book.getSoluong_danhgia() + " đánh giá");
-            tentacgia.setText(book.getTen_tacgia());
-            nhaxuatban.setText(book.getNXB());
-            ngayphathanh.setText(book.getNgayphathanh());
-            sotrang.setText(book.getSo_trang() + "");
-            DecimalFormat df = new DecimalFormat("###,###.###");
-            df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ITALY));
-            String giatien_format = df.format(book.getGiatien_sach());
-            giatien.setText(giatien_format + "");
-            menhgia.setPaintFlags(menhgia.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                    Picasso.get().load(book.getHinhanh_sach()).resize(150,200).into(detailbook_image);
+                    tenSach.setText(book.getTen_sach());
+                    noidungSach.setText(book.getNoidung_sach());
+                    ratingSach.setRating(book.getSosao_danhgia());
+                    soluongdanhgia.setText(book.getSoluong_danhgia() + " đánh giá");
+                    tentacgia.setText(book.getTen_tacgia());
+                    nhaxuatban.setText(book.getNXB());
+                    ngayphathanh.setText(book.getNgayphathanh());
+                    sotrang.setText(book.getSo_trang() + "");
+                    DecimalFormat df = new DecimalFormat("###,###.###");
+                    df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ITALY));
+                    String giatien_format = df.format(book.getGiatien_sach());
+                    giatien.setText(giatien_format + "");
+                    menhgia.setPaintFlags(menhgia.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         }else {
 
         }

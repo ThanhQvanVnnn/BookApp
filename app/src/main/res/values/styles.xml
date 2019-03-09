@@ -23,5 +23,8 @@
     <style name="RatingBar_dialog" parent="Theme.AppCompat">
         <item name="android:progressTint" tools:targetApi="lollipop">@color/duskYellow</item>
     </style>
+    <style name="popup_toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:popupBackground">@drawable/bacground_toolbar_chitietsach</item>
+    </style>
 
 </resources>
