@@ -1,18 +1,16 @@
 package com.phungthanhquan.bookapp.Presenter.Fragment;
 
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.phungthanhquan.bookapp.Model.Fragment.TrangChu.ModelFragmentTrangChu;
+import com.phungthanhquan.bookapp.Model.Fragment.ModelFragmentTrangChu;
 import com.phungthanhquan.bookapp.Object.AlbumBook;
 import com.phungthanhquan.bookapp.Object.ItemBook;
 import com.phungthanhquan.bookapp.Object.NXB;
 import com.phungthanhquan.bookapp.Object.Slider;
 import com.phungthanhquan.bookapp.View.InterfaceView.InterfaceViewFragmentTrangChu;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PresenterFragmentTrangChu implements PresenterInterfaceFragmentTrangChu{

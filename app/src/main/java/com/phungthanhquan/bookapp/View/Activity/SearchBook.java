@@ -61,7 +61,7 @@ public class SearchBook extends AppCompatActivity implements InterfaceViewActivi
     @Override
     public void timkiemsachthanhcong(List<ItemBook> dsSachs) {
         dsSachTimKiem = dsSachs;
-        recycleViewItemBookAdapter = new RecycleView_ItemBook_Adapter(this,dsSachTimKiem);
+        recycleViewItemBookAdapter = new RecycleView_ItemBook_Adapter(this,dsSachTimKiem,0);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,3);
         recyclerViewTimKiem.setAdapter(recycleViewItemBookAdapter);
         recyclerViewTimKiem.setLayoutManager(layoutManager);

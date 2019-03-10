@@ -54,9 +54,7 @@ public class ViewPager_Slider_Adapter extends PagerAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, BookDetail.class);
                 intent.putExtra("image",listslider.get(position).getImage());
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
-                        slider,"sharedName");
-                context.startActivity(intent,options.toBundle());
+                context.startActivity(intent);
             }
         });
         container.addView(sliderLayout);

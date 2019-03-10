@@ -10,6 +10,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -67,8 +68,8 @@ public class ListBookToChoice extends AppCompatActivity implements InterfaceView
 
     @Override
     public void hienThiDanhSach(List<ItemBook> itemBookList) {
-        RecycleView_ItemBook_Adapter adapter = new RecycleView_ItemBook_Adapter(this,itemBookList);
+        RecycleView_ItemBook_Adapter adapter = new RecycleView_ItemBook_Adapter(this,itemBookList,1);
         listBookToChoice.setAdapter(adapter);
-        listBookToChoice.setLayoutManager(new GridLayoutManager(this,3));
+        listBookToChoice.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
     }
 }

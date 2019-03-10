@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -28,19 +29,27 @@ public class RecycleView_ItemBook_Adapter extends RecyclerView.Adapter<RecycleVi
     private List<ItemBook> dsSach;
     private List<ItemBook> dsRandom;
     private Random randomc;
+    private int type_layout;
 
-    public RecycleView_ItemBook_Adapter(Context context, List<ItemBook> dsSach) {
+    public RecycleView_ItemBook_Adapter(Context context, List<ItemBook> dsSach,int type_layout) {
         this.context = context;
         this.dsSach = dsSach;
         randomc = new Random();
         dsRandom = new ArrayList<>();
-
+        this.type_layout = type_layout;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_book_recycleview,viewGroup,false);
+        View view;
+        if(type_layout == 0) {
+             view = LayoutInflater.from(context).inflate(R.layout.item_book_recycleview, viewGroup, false);
+        }else if(type_layout ==1 ) {
+             view = LayoutInflater.from(context).inflate(R.layout.item_book_vertical_layout, viewGroup, false);
+        }else {
+            view = LayoutInflater.from(context).inflate(R.layout.item_danhmuc_chitiet, viewGroup, false);
+        }
         ViewHolder viewHolder =  new ViewHolder(view);
         return viewHolder;
     }
@@ -64,7 +73,7 @@ public class RecycleView_ItemBook_Adapter extends RecyclerView.Adapter<RecycleVi
         new Thread(new Runnable() {
             @Override
             public void run() {
-                viewHolder.imageSach.setOnClickListener(new View.OnClickListener() {
+                viewHolder.layout_itemBook.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, BookDetail.class);
@@ -92,11 +101,13 @@ public class RecycleView_ItemBook_Adapter extends RecyclerView.Adapter<RecycleVi
         private ImageView imageSach;
         private TextView titleSach;
         private ProgressBar progressBar;
+        private LinearLayout layout_itemBook;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageSach = itemView.findViewById(R.id.item_imagebook);
             titleSach = itemView.findViewById(R.id.item_titlebook);
             progressBar = itemView.findViewById(R.id.progress_itembook);
+            layout_itemBook = itemView.findViewById(R.id.layout_itembook);
         }
     }
 

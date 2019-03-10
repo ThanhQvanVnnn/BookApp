@@ -1,4 +1,4 @@
-package com.phungthanhquan.bookapp.Model.Fragment.TrangChu;
+package com.phungthanhquan.bookapp.Model.Fragment;
 
 import com.phungthanhquan.bookapp.Object.AlbumBook;
 import com.phungthanhquan.bookapp.Object.ItemBook;

@@ -80,9 +80,10 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private HorizontalInfiniteCycleViewPager pager_album;
     private RecycleView_NXB_Adapter adapterNXB;
     private RecycleView_ItemBook_Adapter adapterVanHocTrongNuoc;
-    private  RecycleView_ItemBook_Adapter adapterSachKhuyenDoc;
-    private  RecyclerView.LayoutManager layoutManagerSachKhuyenDoc;
-    private   RecycleView_ItemBook_Adapter adapterSachMoi;
+    private RecycleView_ItemBook_Adapter adapterSachKhuyenDoc;
+    private RecyclerView.LayoutManager layoutManagerSachKhuyenDoc;
+    private RecycleView_ItemBook_Adapter adapterSachMoi;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -133,6 +134,9 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                         @Override
                         public void run() {
                             slider_Adapter.notifyDataSetChanged();
+                            int sizesliderList = sliderList.size();
+                            Timer timer = new Timer();
+                            timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
                         }
                     });
                 } catch (final Exception ex) {
@@ -256,7 +260,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         }.start();
 
 
-
     }
 
     @Override
@@ -272,7 +275,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                 startActivity(intent);
                 break;
             case R.id.search_book:
-                 intent = new Intent(getContext(), SearchBook.class);
+                intent = new Intent(getContext(), SearchBook.class);
                 getActivity().startActivity(intent);
                 break;
         }
@@ -287,11 +290,11 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         danhSachSachMoi = new ArrayList<>();
 
         slider_Adapter = new ViewPager_Slider_Adapter(getContext(), sliderList);
-        adapterAlbum = new ListAlbum_Adapter(albumBook,getContext());
+        adapterAlbum = new ListAlbum_Adapter(albumBook, getContext());
         adapterNXB = new RecycleView_NXB_Adapter(getContext(), danhSachNXB);
-        adapterVanHocTrongNuoc = new RecycleView_ItemBook_Adapter(getContext(), danhSachVanHocTrongNuoc);
-        adapterSachKhuyenDoc = new RecycleView_ItemBook_Adapter(getContext(), danhSachKhuyenDoc);
-        adapterSachMoi = new RecycleView_ItemBook_Adapter(getContext(), danhSachSachMoi);
+        adapterVanHocTrongNuoc = new RecycleView_ItemBook_Adapter(getContext(), danhSachVanHocTrongNuoc, 0);
+        adapterSachKhuyenDoc = new RecycleView_ItemBook_Adapter(getContext(), danhSachKhuyenDoc, 0);
+        adapterSachMoi = new RecycleView_ItemBook_Adapter(getContext(), danhSachSachMoi, 0);
 
         //slider
         slider.setAdapter(slider_Adapter);
@@ -320,10 +323,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
 
     private void ActivePresenter() {
         presenterFragmentTrangChu.xulislider();
-               int sizesliderList = sliderList.size();
-               Timer timer = new Timer();
-               timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
-               indicator.setupWithViewPager(slider, true);
+        indicator.setupWithViewPager(slider, true);
         presenterFragmentTrangChu.xuliHienthiDsSachMoi();
         presenterFragmentTrangChu.xuliHienThiAlBumSach();
         presenterFragmentTrangChu.xuliHienthiDsSachVanHocTrongNuoc();
@@ -414,11 +414,11 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
 //        threadOnScroll.start();
     }
 
-    public void RefresherLayout(){
+    public void RefresherLayout() {
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_dark)
-                ,getResources().getColor(android.R.color.holo_blue_light)
-                ,getResources().getColor(android.R.color.holo_orange_light));
+                , getResources().getColor(android.R.color.holo_blue_light)
+                , getResources().getColor(android.R.color.holo_orange_light));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -435,8 +435,9 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                         ActivePresenter();
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                },2000);
-            }});
+                }, 2000);
+            }
+        });
     }
 
 
@@ -461,7 +462,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         }
     }
 
-    public void OnsCroll(){
+    public void OnsCroll() {
         if (nestedScrollView != null) {
 
             nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -490,15 +491,15 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                             public void run() {
                                 List<ItemBook> dsSachLayVe = new ArrayList<>();
                                 dsSachLayVe = presenterFragmentTrangChu.xuliHienThiDsKhuyenDocLoadMore(sizeListSachKhuyenDoc,
-                                        progressBarLoadMoreKhuyenDoc,hienthiDSSachKhuyenDoc);
-                                if (dsSachLayVe.size()!=0) //check for scroll down
+                                        progressBarLoadMoreKhuyenDoc, hienthiDSSachKhuyenDoc);
+                                if (dsSachLayVe.size() != 0) //check for scroll down
                                 {
                                     danhSachKhuyenDoc.addAll(dsSachLayVe);
                                     adapterSachKhuyenDoc.notifyDataSetChanged();
                                 }
 
                             }
-                        },1000);
+                        }, 1000);
 //                        Log.i(TAG, "BOTTOM SCROLL");
 
 
