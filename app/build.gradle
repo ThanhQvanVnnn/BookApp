@@ -33,9 +33,11 @@ dependencies {
     implementation 'com.github.devlight:infinitecycleviewpager:1.0.2'
     implementation 'com.ms-square:expandableTextView:0.1.4'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.github.HotbitmapGG:RingProgressBar:V1.2.2'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     // Optional, if you use support library fragments:
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+
 }
