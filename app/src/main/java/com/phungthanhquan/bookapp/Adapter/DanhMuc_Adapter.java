@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.phungthanhquan.bookapp.Object.DanhMuc;
 import com.phungthanhquan.bookapp.R;
 import com.phungthanhquan.bookapp.View.Activity.ListBookDanhMucTatCa;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,15 +37,28 @@ public class DanhMuc_Adapter extends RecyclerView.Adapter<DanhMuc_Adapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         final DanhMuc danhMuc = danhMucList.get(position);
-        viewHolder.tendanhMuc.setText(danhMuc.getTenDanhMuc());
-        Picasso.get().load(danhMuc.getBackGround()).into(viewHolder.background);
+
+        Picasso.get().load(danhMuc.getBackGround()).into(viewHolder.background, new Callback() {
+            @Override
+            public void onSuccess() {
+                viewHolder.progressBar.setVisibility(View.GONE);
+                viewHolder.view.setVisibility(View.VISIBLE);
+                viewHolder.tendanhMuc.setText(danhMuc.getTenDanhMuc());
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
         viewHolder.layoutDanhMuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ListBookDanhMucTatCa.class);
                 intent.putExtra("idDanhMuc",danhMuc.getIdDanhMuc());
+                intent.putExtra("tenDanhMuc",danhMuc.getTenDanhMuc());
                 context.startActivity(intent);
             }
         });
@@ -58,11 +73,15 @@ public class DanhMuc_Adapter extends RecyclerView.Adapter<DanhMuc_Adapter.ViewHo
         private ImageView background;
         private TextView tendanhMuc;
         private CardView layoutDanhMuc;
+        private ProgressBar progressBar;
+        private View view;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             background = itemView.findViewById(R.id.image_background_danhmuc);
             tendanhMuc = itemView.findViewById(R.id.textview_tendanhmuc);
             layoutDanhMuc = itemView.findViewById(R.id.layout_item_danhmuc);
+            progressBar = itemView.findViewById(R.id.progress);
+            view = itemView.findViewById(R.id.viewDarkBlank);
         }
     }
 }

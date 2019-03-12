@@ -19,7 +19,7 @@ public class ModelFragmentDanhMuc {
                 "Trinh thám/Kinh dị");
         DanhMuc danhMuc5 = new DanhMuc("5","http://www.bca.org.vn/wp-content/uploads/2018/10/hop-dong-hon-nhan-co-dau-14-tuoi.jpg",
                 "Truyện tuổi teen");
-        DanhMuc danhMuc6 = new DanhMuc("6","http://bookaholic.vn/wp-content/uploads/2013/09/old-book.jpg",
+        DanhMuc danhMuc6 = new DanhMuc("6","http://300b5338.vws.vegacdn.vn/image/img.news/0/0/0/733.jpg?v=2&w=480&h=295&nocache=1",
                 "Văn học kinh điển");
         DanhMuc danhMuc7 = new DanhMuc("7","http://genknews.genkcdn.vn/thumb_w/660/2018/8/24/k1gtwgz55scbpnp629km-1535092943235390664980.jpg",
                 "Viển tưởng, thần thoại");

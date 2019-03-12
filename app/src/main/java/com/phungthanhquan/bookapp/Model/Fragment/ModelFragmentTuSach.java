@@ -34,6 +34,13 @@ public class ModelFragmentTuSach {
         itemBookCaseList.add(itemBook2);
         itemBookCaseList.add(itemBook3);
         itemBookCaseList.add(itemBook4);
+        itemBookCaseList.add(itemBook1);
+        itemBookCaseList.add(itemBook2);
+        itemBookCaseList.add(itemBook3);
+        itemBookCaseList.add(itemBook4);
+        itemBookCaseList.add(itemBook1);
+        itemBookCaseList.add(itemBook2);
+        itemBookCaseList.add(itemBook3);
         return itemBookCaseList;
     }
 }

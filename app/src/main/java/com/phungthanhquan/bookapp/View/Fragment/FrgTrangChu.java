@@ -39,7 +39,9 @@ import com.phungthanhquan.bookapp.Object.Slider;
 import com.phungthanhquan.bookapp.Presenter.Fragment.PresenterFragmentTrangChu;
 import com.phungthanhquan.bookapp.R;
 import com.phungthanhquan.bookapp.View.Activity.BookDetail;
+import com.phungthanhquan.bookapp.View.Activity.ListBookDanhMucTatCa;
 import com.phungthanhquan.bookapp.View.Activity.ListBookToChoice;
+import com.phungthanhquan.bookapp.View.Activity.MarketingChiTiet;
 import com.phungthanhquan.bookapp.View.Activity.SearchBook;
 import com.phungthanhquan.bookapp.View.InterfaceView.InterfaceViewFragmentTrangChu;
 
@@ -83,7 +85,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private RecycleView_ItemBook_Adapter adapterSachKhuyenDoc;
     private RecyclerView.LayoutManager layoutManagerSachKhuyenDoc;
     private RecycleView_ItemBook_Adapter adapterSachMoi;
-
+    private  Timer timer;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -134,9 +136,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                         @Override
                         public void run() {
                             slider_Adapter.notifyDataSetChanged();
-                            int sizesliderList = sliderList.size();
-                            Timer timer = new Timer();
-                            timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
                         }
                     });
                 } catch (final Exception ex) {
@@ -267,11 +266,13 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         Intent intent;
         switch (v.getId()) {
             case R.id.xemtatca_sachmoi:
-                intent = new Intent(getContext(), ListBookToChoice.class);
+                intent = new Intent(getContext(), MarketingChiTiet.class);
+                intent.putExtra("Title","Sách mới");
                 startActivity(intent);
                 break;
             case R.id.xemtatca_vanhoctrongnuoc:
-                intent = new Intent(getContext(), ListBookToChoice.class);
+                intent = new Intent(getContext(), MarketingChiTiet.class);
+                intent.putExtra("Title","Văn học trong nước");
                 startActivity(intent);
                 break;
             case R.id.search_book:
@@ -283,6 +284,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
 
     private void CreateAdapterAddView() {
         sliderList = new ArrayList<>();
+
         albumBook = new ArrayList<>();
         danhSachNXB = new ArrayList<>();
         danhSachVanHocTrongNuoc = new ArrayList<>();
@@ -298,6 +300,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
 
         //slider
         slider.setAdapter(slider_Adapter);
+
         //album
         pager_album.setAdapter(adapterAlbum);
         //NXB
@@ -324,6 +327,9 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private void ActivePresenter() {
         presenterFragmentTrangChu.xulislider();
         indicator.setupWithViewPager(slider, true);
+        int sizesliderList = sliderList.size();
+         timer = new Timer();
+        timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
         presenterFragmentTrangChu.xuliHienthiDsSachMoi();
         presenterFragmentTrangChu.xuliHienThiAlBumSach();
         presenterFragmentTrangChu.xuliHienthiDsSachVanHocTrongNuoc();
@@ -426,6 +432,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                 (new Handler()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        timer.cancel();
                         sliderList.clear();
                         albumBook.clear();
                         danhSachNXB.clear();

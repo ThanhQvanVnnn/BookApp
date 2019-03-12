@@ -18,13 +18,11 @@ public class LoadMoreScroll extends RecyclerView.OnScrollListener {
     private int tongItem;
     private int itemDaLoad;
     private int itemLoadTruoc;
-    private List<ItemBook> itemBookList;
 
     public LoadMoreScroll(RecyclerView.LayoutManager layoutManager, InterfaceLoadMore interfaceLoadMore, int itemLoadTruoc) {
         this.layoutManager = layoutManager;
         this.interfaceLoadMore = interfaceLoadMore;
         this.itemLoadTruoc = itemLoadTruoc;
-        itemBookList = new ArrayList<>();
     }
 
     @Override
@@ -36,9 +34,9 @@ public class LoadMoreScroll extends RecyclerView.OnScrollListener {
         }else if(layoutManager instanceof GridLayoutManager){
             itemDaLoad = ((GridLayoutManager) layoutManager).findFirstVisibleItemPosition();
         }
-        Log.d("kiemtra",itemDaLoad +"");
-        if((itemLoadTruoc+itemDaLoad)>= tongItem){
-            interfaceLoadMore.hienThiLoadMore(tongItem,itemBookList);
+        Log.d("kiemtra",itemDaLoad +"-"+tongItem);
+        if(tongItem <= (itemLoadTruoc+itemDaLoad)){
+            interfaceLoadMore.hienThiLoadMore(tongItem);
         }
     }
     @Override

@@ -19,12 +19,19 @@
             android:layout_width="match_parent"
             android:layout_height="90dp" />
         <View
+            android:id="@+id/viewDarkBlank"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:background="#80000000"/>
         <TextView
             android:id="@+id/textview_tendanhmuc"
             android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ProgressBar
+            android:id="@+id/progress"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

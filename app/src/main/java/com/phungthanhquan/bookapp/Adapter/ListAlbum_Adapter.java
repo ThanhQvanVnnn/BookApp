@@ -12,11 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.phungthanhquan.bookapp.Object.AlbumBook;
 import com.phungthanhquan.bookapp.R;
 import com.phungthanhquan.bookapp.View.Activity.ListBookToChoice;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -57,7 +59,18 @@ public class ListAlbum_Adapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.item_albumbook,container,false);
         final ImageView imageView = view.findViewById(R.id.image_album);
         final TextView  title = view.findViewById(R.id.title_album);
-        Picasso.get().load(lstImages.get(position).getImageAlbum()).into(imageView);
+        final ProgressBar progressBar = view.findViewById(R.id.progress);
+        Picasso.get().load(lstImages.get(position).getImageAlbum()).into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
         title.setText(lstImages.get(position).getTitleAlbum());
         view.setOnClickListener(new View.OnClickListener() {
             @Override

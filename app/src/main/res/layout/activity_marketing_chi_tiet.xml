@@ -21,29 +21,29 @@
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_weight="1"
-        android:id="@+id/refresh_danhmuc"
-        android:layout_marginTop="5dp"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle_danhmucchitiet"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:id="@+id/refresh_marketing"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           ></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
-    <ProgressBar
-        android:layout_gravity="center"
-        android:id="@+id/progressDanhMucTatCa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
-</LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_marketingchitiet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"></android.support.v7.widget.RecyclerView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+        <ProgressBar
+            android:layout_gravity="center"
+            android:id="@+id/progressMarketingChitiet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+    </LinearLayout>
 </LinearLayout>
