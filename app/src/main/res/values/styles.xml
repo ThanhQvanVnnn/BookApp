@@ -27,4 +27,5 @@
         <item name="android:popupBackground">@drawable/bacground_toolbar_chitietsach</item>
     </style>
 
+
 </resources>
