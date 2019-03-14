@@ -61,5 +61,10 @@
     <string name="sach_yeu_thich">Sách yêu thích</string>
     <string name="cai_dat">Cài đặt</string>
     <string name="dang_xuat">Đăng xuất</string>
+    <string name="user_name">Tên đăng nhập</string>
+    <string name="password">Mật khẩu</string>
+    <string name="login">Đăng Nhập</string>
+    <string name="quen_mat_khau">Quên mật khẩu?</string>
+    <string name="dang_ky_ngay">Đăng ký ngay</string>
 
 </resources>
