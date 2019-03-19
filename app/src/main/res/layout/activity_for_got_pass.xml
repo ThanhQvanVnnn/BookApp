@@ -27,7 +27,7 @@
         app:srcCompat="@drawable/stubo" />
 
     <Button
-        android:id="@+id/button_register"
+        android:id="@+id/button_gui"
         android:layout_width="170dp"
         android:layout_height="70dp"
         android:layout_marginStart="8dp"
@@ -35,127 +35,53 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/border_button_login"
-        android:text="@string/register"
+        android:text="@string/gui"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17"
-        app:layout_constraintVertical_bias="0.315" />
+        app:layout_constraintTop_toBottomOf="@+id/textView14"
+        app:layout_constraintVertical_bias="0.158" />
 
     <LinearLayout
         android:id="@+id/textView14"
-        android:layout_width="280dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/background_dangnhap1"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.451"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3"
-        android:orientation="horizontal" >
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/icon_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/userName"
-            android:textSize="15sp"
-            android:singleLine="true"
-            android:background="@android:color/transparent"
-            android:layout_marginRight="5dp"
-            android:textColorHint="@color/search_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:hint="@string/user_name_register" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/textView15"
-        android:layout_width="280dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/background_dangnhap1"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.416"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.420">
+        app:layout_constraintVertical_bias="0.3">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
-            android:src="@drawable/icon_password" />
+            android:src="@drawable/icon_username" />
 
         <EditText
-            android:id="@+id/passWord"
-            android:singleLine="true"
-            android:textSize="15sp"
-            android:background="@android:color/transparent"
-            android:layout_marginRight="5dp"
-            android:textColorHint="@color/search_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:hint="@string/password_register" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/textView17"
-        android:layout_width="280dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/background_dangnhap1"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.416"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.545">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/icon_password" />
-
-        <EditText
-            android:id="@+id/rePassWord"
+            android:id="@+id/diachiEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
-            android:hint="@string/re_password_register"
+            android:hint="@string/Nhap_email"
             android:singleLine="true"
             android:textColorHint="@color/search_background"
             android:textSize="15sp" />
     </LinearLayout>
+
 
     <TextView
         android:id="@+id/exit"

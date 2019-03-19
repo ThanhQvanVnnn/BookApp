@@ -116,23 +116,33 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
 
     @Override
     public void hienthislider(final List<Slider> sliderListReturn) {
-        new Thread() {
-            @Override
-            public void run() {
-                //If there are stories, add them to the table
-                sliderList.addAll(sliderListReturn);
-                try {
-                    // code runs in a thread
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            slider_Adapter.notifyDataSetChanged();
-                        }
-                    });
-                } catch (final Exception ex) {
-                }
-            }
-        }.start();
+        sliderList.addAll(sliderListReturn);
+        slider_Adapter.notifyDataSetChanged();
+        indicator.setupWithViewPager(slider, true);
+        int sizesliderList = sliderList.size();
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                //If there are stories, add them to the table
+//                sliderList.addAll(sliderListReturn);
+//                try {
+//                    // code runs in a thread
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            slider_Adapter.notifyDataSetChanged();
+//                            indicator.setupWithViewPager(slider, true);
+//                            int sizesliderList = sliderList.size();
+//                            timer = new Timer();
+//                            timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
+//                        }
+//                    });
+//                } catch (final Exception ex) {
+//                }
+//            }
+//        }.start();
 
 
     }
@@ -231,23 +241,25 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
 
     @Override
     public void hienthiAlbumSach(final List<AlbumBook> albumBooks) {
-        new Thread() {
-            @Override
-            public void run() {
-                //If there are stories, add them to the table
-                albumBook.addAll(albumBooks);
-                try {
-                    // code runs in a thread
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapterAlbum.notifyDataSetChanged();
-                        }
-                    });
-                } catch (final Exception ex) {
-                }
-            }
-        }.start();
+        albumBook.addAll(albumBooks);
+        adapterAlbum.notifyDataSetChanged();
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                //If there are stories, add them to the table
+//                albumBook.addAll(albumBooks);
+//                try {
+//                    // code runs in a thread
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            adapterAlbum.notifyDataSetChanged();
+//                        }
+//                    });
+//                } catch (final Exception ex) {
+//                }
+//            }
+//        }.start();
 
 
     }
@@ -317,10 +329,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
 
     private void ActivePresenter() {
         presenterFragmentTrangChu.xulislider();
-        indicator.setupWithViewPager(slider, true);
-        int sizesliderList = sliderList.size();
-         timer = new Timer();
-        timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
         presenterFragmentTrangChu.xuliHienthiDsSachMoi();
         presenterFragmentTrangChu.xuliHienThiAlBumSach();
         presenterFragmentTrangChu.xuliHienthiDsSachVanHocTrongNuoc();
@@ -505,6 +513,12 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                 }
             });
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
     }
 }
 

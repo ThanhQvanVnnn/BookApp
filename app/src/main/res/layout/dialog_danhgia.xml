@@ -56,7 +56,7 @@
         android:layout_height="200dp" />
     <Button
         android:id="@+id/button_guidanhgia"
-        android:text="@string/gui"
+        android:text="@string/gui_danh_gia"
         android:textSize="25sp"
         android:textColor="@color/white"
         android:background="@drawable/background_button_themdanhgia"

@@ -27,7 +27,7 @@
         app:srcCompat="@drawable/stubo" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_Login"
         android:layout_width="170dp"
         android:layout_height="70dp"
         android:layout_marginStart="8dp"
@@ -68,6 +68,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:id="@+id/userName"
             android:textSize="15sp"
             android:singleLine="true"
             android:background="@android:color/transparent"
@@ -105,6 +106,7 @@
             android:src="@drawable/icon_password" />
 
         <EditText
+            android:id="@+id/passWord"
             android:singleLine="true"
             android:textSize="15sp"
             android:background="@android:color/transparent"
@@ -118,7 +120,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/textview_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -132,11 +134,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.003"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/button_Login"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/texview_fogotPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -150,7 +152,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.996"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/button_Login"
         app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
@@ -195,7 +197,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/facebook"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
@@ -211,7 +213,7 @@
         app:srcCompat="@drawable/facebook_icon" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/google"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
@@ -221,7 +223,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/facebook"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/google_icon" />

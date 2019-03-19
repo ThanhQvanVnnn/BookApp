@@ -24,7 +24,7 @@ import java.util.List;
 public class ViewPager_Slider_Adapter extends PagerAdapter {
 
     private Context context;
-    List<Slider> listslider;
+    private List<Slider> listslider;
 
     public ViewPager_Slider_Adapter(Context context, List<Slider> listslider) {
         this.context = context;
