@@ -24,9 +24,14 @@
     <style name="RatingBar_dialog" parent="Theme.AppCompat">
         <item name="android:progressTint" tools:targetApi="lollipop">@color/duskYellow</item>
     </style>
+
     <style name="popup_toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:popupBackground">@drawable/bacground_toolbar_chitietsach</item>
     </style>
 
+    <declare-styleable name="PasswordEditText">
+        <attr name="useStrike" format="boolean" />
+        <attr name="useValidate" format="boolean" />
+    </declare-styleable>
 
 </resources>

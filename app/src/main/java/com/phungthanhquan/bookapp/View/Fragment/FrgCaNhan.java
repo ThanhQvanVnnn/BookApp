@@ -1,5 +1,6 @@
 package com.phungthanhquan.bookapp.View.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.phungthanhquan.bookapp.Object.User;
 import com.phungthanhquan.bookapp.Presenter.Fragment.PresenterLogicCaNhan;
 import com.phungthanhquan.bookapp.R;
+import com.phungthanhquan.bookapp.View.Activity.Login;
 import com.phungthanhquan.bookapp.View.InterfaceView.InterfaceViewFragmentCaNhan;
 import com.squareup.picasso.Picasso;
 
@@ -96,6 +98,7 @@ public class FrgCaNhan extends Fragment implements View.OnClickListener, Interfa
     }
     @Override
     public void onClick(View v) {
+
         switch (v.getId()){
             case R.id.thaydoichandung:
 
@@ -119,7 +122,9 @@ public class FrgCaNhan extends Fragment implements View.OnClickListener, Interfa
 
                 break;
             case R.id.dangxuat:
-
+                Intent intent = new Intent(getContext(), Login.class);
+                startActivity(intent);
+                getActivity().finish();
                 break;
         }
     }
