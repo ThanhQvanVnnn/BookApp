@@ -269,17 +269,17 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         Intent intent;
         switch (v.getId()) {
             case R.id.xemtatca_sachmoi:
-                intent = new Intent(getContext(), MarketingChiTiet.class);
+                intent = new Intent(getActivity(), MarketingChiTiet.class);
                 intent.putExtra("Title","Sách mới");
                 startActivity(intent);
                 break;
             case R.id.xemtatca_vanhoctrongnuoc:
-                intent = new Intent(getContext(), MarketingChiTiet.class);
+                intent = new Intent(getActivity(), MarketingChiTiet.class);
                 intent.putExtra("Title","Văn học trong nước");
                 startActivity(intent);
                 break;
             case R.id.search_book:
-                intent = new Intent(getContext(), SearchBook.class);
+                intent = new Intent(getActivity(), SearchBook.class);
                 getActivity().startActivity(intent);
                 break;
         }
@@ -294,9 +294,9 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         danhSachKhuyenDoc = new ArrayList<>();
         danhSachSachMoi = new ArrayList<>();
 
-        slider_Adapter = new ViewPager_Slider_Adapter(getContext(), sliderList);
+        slider_Adapter = new ViewPager_Slider_Adapter(getActivity(), sliderList);
         adapterAlbum = new ListAlbum_Adapter(albumBook, getContext());
-        adapterNXB = new RecycleView_NXB_Adapter(getContext(), danhSachNXB);
+        adapterNXB = new RecycleView_NXB_Adapter(getActivity(), danhSachNXB);
         adapterVanHocTrongNuoc = new RecycleView_ItemBook_Adapter(getContext(), danhSachVanHocTrongNuoc, 0);
         adapterSachKhuyenDoc = new RecycleView_ItemBook_Adapter(getContext(), danhSachKhuyenDoc, 0);
         adapterSachMoi = new RecycleView_ItemBook_Adapter(getContext(), danhSachSachMoi, 0);
