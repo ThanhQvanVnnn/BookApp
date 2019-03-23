@@ -75,4 +75,8 @@
     <string name="dang_ky_ngay">Đăng ký ngay</string>
     <string name="Nhap_email">Nhập email (*)</string>
     <string name="gui">Gửi</string>
+    <string name="night_mode">Chế độ</string>
+    <string name="zoom_in">Phóng to</string>
+    <string name="zoom_out">Thu Nhỏ</string>
+    <string name="xoay">Xoay</string>
 </resources>

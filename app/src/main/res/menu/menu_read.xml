@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/test"
-        android:title="Test"></item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+   <item android:id="@+id/nightmode"
+       android:title="@string/night_mode"
+       android:icon="@drawable/ic_sunny_24dp"
+       app:showAsAction="always"/>
+    <item android:id="@+id/oritaintion"
+        android:title="@string/xoay"
+        android:icon="@drawable/ic_loop_24dp"
+        app:showAsAction="always"/>
 </menu>
