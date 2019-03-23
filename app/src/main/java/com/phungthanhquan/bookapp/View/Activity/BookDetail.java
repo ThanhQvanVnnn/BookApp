@@ -158,7 +158,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                 startActivity(intent,options.toBundle());
                 break;
             case R.id.button_docsach:
-                intent = new Intent(this, ChonGoiMuaSach.class);
+                intent = new Intent(this, Read.class);
                 intent.putExtra("idSach","id0");
                 startActivity(intent);
                 break;

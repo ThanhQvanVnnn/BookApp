@@ -1,7 +1,7 @@
 package com.phungthanhquan.bookapp.Object;
 
 public class Book {
-    private String id_sach;
+    private int id_sach;
     private String hinhanh_sach;
     private String ten_sach;
     private String ten_tacgia;
@@ -16,7 +16,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(String id_sach, String hinhanh_sach, String ten_sach, String ten_tacgia, String NXB, int so_trang, String ngayphathanh, int giatien_sach, int sosao_danhgia, String noidung_sach, int soluong_danhgia) {
+    public Book(int id_sach, String hinhanh_sach, String ten_sach, String ten_tacgia, String NXB, int so_trang, String ngayphathanh, int giatien_sach, int sosao_danhgia, String noidung_sach, int soluong_danhgia) {
         this.id_sach = id_sach;
         this.hinhanh_sach = hinhanh_sach;
         this.ten_sach = ten_sach;
@@ -62,11 +62,11 @@ public class Book {
         this.ngayphathanh = ngayphathanh;
     }
 
-    public String getId_sach() {
+    public int getId_sach() {
         return id_sach;
     }
 
-    public void setId_sach(String id_sach) {
+    public void setId_sach(int id_sach) {
         this.id_sach = id_sach;
     }
 
