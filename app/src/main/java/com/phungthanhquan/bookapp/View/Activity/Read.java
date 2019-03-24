@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.phungthanhquan.bookapp.Object.BookRead;
@@ -28,8 +29,10 @@ import com.phungthanhquan.bookapp.R;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,7 +51,7 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
     private ImageView next, previous;
     private BookRead bookRead;
     private List<ChuongSach> chuongSachList;
-    Boolean isNightMode, IsVertical,IsDauTrang;
+    Boolean isNightMode, IsVertical, IsDauTrang;
     int numberPage, currentPage;
     private String chuongHienTai;
     private List<DauTrang> dauTrangList;
@@ -69,7 +72,8 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
                     @Override
                     public void loadComplete(int nbPages) {
                         numberPage = pdfView.getPageCount();
-                        seekBar.setMax(numberPage);
+                        int num = numberPage - 1;
+                        seekBar.setMax(num);
                     }
                 })
                 .enableAnnotationRendering(false) // render annotations (such as comments, colors or forms)
@@ -94,11 +98,25 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-               progresss = progress * 100 / numberPage;
+                progresss = progress * 100 / (numberPage - 1);
                 currentPage = progress;
+                if (currentPage == 0) {
+                    previous.setVisibility(View.INVISIBLE);
+                    previous.setEnabled(false);
+                } else {
+                    previous.setVisibility(View.VISIBLE);
+                    previous.setEnabled(true);
+                }
+                if (currentPage == (seekBar.getMax())) {
+                    next.setVisibility(View.INVISIBLE);
+                    next.setEnabled(false);
+                } else {
+                    next.setVisibility(View.VISIBLE);
+                    next.setEnabled(true);
+                }
                 phanTramDoc.setText(progresss + "%");
                 pdfView.jumpTo(progress, true);
-                trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + numberPage + " - ");
+                trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + (numberPage - 1) + " - ");
                 CheckExit(chuongSachList, currentPage);
                 kiemTraDauTrang();
             }
@@ -273,37 +291,49 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
 
                 break;
             case R.id.imageNext:
-                if (currentPage < numberPage) {
-
+                if (currentPage == (numberPage - 1)) {
+                    next.setVisibility(View.INVISIBLE);
+                    next.setEnabled(false);
+                    pdfView.jumpTo(currentPage, true);
+                } else if (currentPage < numberPage) {
+                    previous.setEnabled(true);
+                    previous.setVisibility(View.VISIBLE);
                     currentPage = currentPage + 1;
                     pdfView.jumpTo(currentPage, true);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         seekBar.setProgress(currentPage, true);
                     }
-                    trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + numberPage + " - ");
+                    trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + (numberPage - 1) + " - ");
                     CheckExit(chuongSachList, currentPage);
-                   kiemTraDauTrang();
+                    kiemTraDauTrang();
                 }
 
                 break;
             case R.id.imagePreVious:
-                if (currentPage > 0) {
+                if (currentPage == 0) {
+                    previous.setEnabled(false);
+                    previous.setVisibility(View.INVISIBLE);
+                    pdfView.jumpTo(currentPage, true);
+                } else if (currentPage > 0) {
+                    next.setVisibility(View.VISIBLE);
+                    next.setEnabled(true);
                     currentPage = currentPage - 1;
                     pdfView.jumpTo(currentPage, true);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         seekBar.setProgress(currentPage, true);
                     }
-                    trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + numberPage + " - ");
+                    trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + (numberPage - 1) + " - ");
                     CheckExit(chuongSachList, currentPage);
                     kiemTraDauTrang();
                 }
+
                 break;
             case R.id.dautrang:
                 IsDauTrang = !IsDauTrang;
-                if(IsDauTrang){
+                if (IsDauTrang) {
                     dautrang.setImageResource(R.drawable.ic_star_yellow_24dp);
                     themDauTrang();
-                }else {
+                } else {
                     dautrang.setImageResource(R.drawable.ic_star_border_blue_24dp);
                     xoaDauTrang();
                 }
@@ -311,36 +341,39 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    public Boolean kiemtraTonTai(int page, List<DauTrang> dauTrangList){
-        for(DauTrang dauTrang:dauTrangList){
-            if(dauTrang.getTrang() == page){
+    public Boolean kiemtraTonTai(int page, List<DauTrang> dauTrangList) {
+        for (DauTrang dauTrang : dauTrangList) {
+            if (dauTrang.getTrang() == page) {
                 return true;
             }
         }
         return false;
     }
 
-    public void kiemTraDauTrang(){
-        if(kiemtraTonTai(currentPage,dauTrangList)){
+    public void kiemTraDauTrang() {
+        if (kiemtraTonTai(currentPage, dauTrangList)) {
             IsDauTrang = true;
             dautrang.setImageResource(R.drawable.ic_star_yellow_24dp);
-        }else {
+        } else {
             IsDauTrang = false;
             dautrang.setImageResource(R.drawable.ic_star_border_blue_24dp);
         }
     }
 
-    public void themDauTrang(){
+    public void themDauTrang() {
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("E");
+        String thu = ft.format(dNow);
         Calendar calendar = Calendar.getInstance();
-        String currentDay = DateFormat.getDateInstance().format(calendar.getTime());
-        DauTrang dauTrang = new DauTrang(chuongHienTai,currentPage,currentDay);
+        String currentDay = thu +", "+getString(R.string.ngay)+" "+ DateFormat.getDateInstance().format(calendar.getTime());
+        DauTrang dauTrang = new DauTrang(chuongHienTai, currentPage, currentDay);
         dauTrangList.add(dauTrang);
     }
 
-    public void xoaDauTrang(){
+    public void xoaDauTrang() {
         for (Iterator<DauTrang> iterator = dauTrangList.iterator(); iterator.hasNext(); ) {
             DauTrang value = iterator.next();
-            if (value.getTrang()== currentPage) {
+            if (value.getTrang() == currentPage) {
                 iterator.remove();
             }
         }
@@ -360,21 +393,22 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(isUp) {
+        if (isUp) {
             switch (item.getItemId()) {
                 case R.id.nightmode:
                     isNightMode = !isNightMode;
                     if (isNightMode) {
                         pdfView.setNightMode(isNightMode);
-                        item.setIcon(R.drawable.ic_sunny_24dp);
-                        next.setImageResource(R.drawable.next_black_24);
-                        previous.setImageResource(R.drawable.previous_black_24);
-                        pdfView.loadPages();
-                    } else {
-                        pdfView.setNightMode(isNightMode);
                         item.setIcon(R.drawable.ic_nightmode_24dp);
                         next.setImageResource(R.drawable.next_white_24);
                         previous.setImageResource(R.drawable.previous_white_24);
+                        pdfView.loadPages();
+                    } else {
+                        pdfView.setNightMode(isNightMode);
+                        item.setIcon(R.drawable.ic_sunny_24dp);
+                        next.setImageResource(R.drawable.next_black_24);
+                        previous.setImageResource(R.drawable.previous_black_24);
+
                         pdfView.loadPages();
                     }
 
@@ -401,14 +435,14 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100) {
-            if(resultCode == Activity.RESULT_OK){
-                int result = data.getIntExtra("trang",currentPage);
+            if (resultCode == Activity.RESULT_OK) {
+                int result = data.getIntExtra("trang", currentPage);
                 currentPage = result;
-                pdfView.jumpTo(currentPage,true);
+                pdfView.jumpTo(currentPage, true);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    seekBar.setProgress(currentPage,true);
+                    seekBar.setProgress(currentPage, true);
                 }
-                trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + numberPage + " - ");
+                trangHienTai.setText(getString(R.string.page) + " " + (currentPage + 1) + "/" + numberPage + " - ");
                 int progresss = currentPage * 100 / numberPage;
                 phanTramDoc.setText(progresss + "%");
             }
