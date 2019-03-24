@@ -12,7 +12,7 @@ public class ModelActivityDetailBook {
 
     //lấy sách từ id sách
     public Book getBook(){
-        books = new Book("1","https://webtruyen.com/public/images/toithayhoavangtrencoxanh1woCMXi6Ln.jpg"
+        books = new Book(1,"https://webtruyen.com/public/images/toithayhoavangtrencoxanh1woCMXi6Ln.jpg"
                 ,"Tôi thấy hoa vàng trên cỏ xanh"
                 ,"Phùng Thanh Quân"
                 ,"Lao Động"

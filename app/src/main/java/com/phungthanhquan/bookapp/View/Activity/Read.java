@@ -5,19 +5,26 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.phungthanhquan.bookapp.Object.BookRead;
+import com.phungthanhquan.bookapp.Object.ChuongSach;
 import com.phungthanhquan.bookapp.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Read extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,9 +37,11 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
     private TextView phanTramDoc;
     private TextView trangHienTai;
     private TextView tenChuong;
-    private ImageButton next, previous;
+    private ImageView next, previous;
     private BookRead bookRead;
+    private List<ChuongSach> chuongSachList;
     Boolean isNightMode, IsVertical;
+    int numberPage, currentPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,13 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
                 .swipeHorizontal(true)
                 .enableDoubletap(false)
                 .defaultPage(0)
+                .onLoad(new OnLoadCompleteListener() {
+                    @Override
+                    public void loadComplete(int nbPages) {
+                        numberPage = pdfView.getPageCount();
+                        seekBar.setMax(numberPage);
+                    }
+                })
                 .enableAnnotationRendering(false) // render annotations (such as comments, colors or forms)
                 .enableAntialiasing(false) // improve rendering a little bit on low-res screens
                 // spacing between pages in dp. To define spacing color, set view background
@@ -62,6 +78,35 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
         pdfView.setOnClickListener(this);
         next.setOnClickListener(this);
         previous.setOnClickListener(this);
+        phanTramDoc.setText(seekBar.getProgress() + "%");
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progresss;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progresss = progress * 100 / numberPage;
+                currentPage = progress;
+                phanTramDoc.setText(progresss + "%");
+                pdfView.jumpTo(progress, true);
+                trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + numberPage + " - ");
+                CheckExit(chuongSachList, currentPage);
+                Log.d("current", currentPage + "");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        tenSach.setText(bookRead.getTenSach());
+        currentPage = pdfView.getCurrentPage();
+        trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + numberPage + " - ");
+        CheckExit(chuongSachList, currentPage);
     }
 
     private void initControls() {
@@ -79,8 +124,31 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
         isUp = false;
         isNightMode = true;
         IsVertical = true;
+        AddDAta();
     }
 
+    void AddDAta() {
+        ChuongSach chuongSach = new ChuongSach(15, 0, "Lời Mở Đầu");
+        ChuongSach chuongSach1 = new ChuongSach(15, 10, "Chương 1: Giới Thiệu");
+        ChuongSach chuongSach2 = new ChuongSach(15, 100, "Chương 2:pattern");
+        ChuongSach chuongSach3 = new ChuongSach(15, 150, "Chương 3:nội dung");
+        ChuongSach chuongSach4 = new ChuongSach(15, 200, "Chương 4: ádsadsad");
+        ChuongSach chuongSach5 = new ChuongSach(15, 213, "Chương 5: tiếp theo");
+        ChuongSach chuongSach6 = new ChuongSach(15, 300, "Chương 6:gần cuối");
+        ChuongSach chuongSach7 = new ChuongSach(15, 350, "Chương 7:sadsdsadas");
+        ChuongSach chuongSach8 = new ChuongSach(15, 400, "Chương Cuối");
+        chuongSachList = new ArrayList<>();
+        chuongSachList.add(chuongSach);
+        chuongSachList.add(chuongSach1);
+        chuongSachList.add(chuongSach2);
+        chuongSachList.add(chuongSach3);
+        chuongSachList.add(chuongSach4);
+        chuongSachList.add(chuongSach5);
+        chuongSachList.add(chuongSach6);
+        chuongSachList.add(chuongSach7);
+        chuongSachList.add(chuongSach8);
+        bookRead = new BookRead(0, "Tôi Thấy Hoa Vàng Trên Cỏ Xanh", 15, chuongSachList);
+    }
 
     public void slideHideHeader(View view) {
         TranslateAnimation animate = new TranslateAnimation(
@@ -105,6 +173,18 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
         view.startAnimation(animate);
     }
 
+    public void CheckExit(List<ChuongSach> chuongSaches, int currentPages) {
+        int size = chuongSaches.size();
+        for (int i = 0; i <= size - 1; i++) {
+            if (i < size - 1) {
+                if (currentPages >= chuongSaches.get(i).getTrang() && currentPages < chuongSaches.get(i + 1).getTrang()) {
+                    tenChuong.setText(chuongSaches.get(i).getTenChuongSach());
+                }
+            } else if (currentPages >= chuongSaches.get(i).getTrang()) {
+                tenChuong.setText(chuongSaches.get(i).getTenChuongSach());
+            }
+        }
+    }
 
     public void slideUpBottom(View view) {
         view.setVisibility(View.VISIBLE);
@@ -131,7 +211,7 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        int currentPage = pdfView.getCurrentPage();
+        currentPage = pdfView.getCurrentPage();
         switch (v.getId()) {
             case R.id.pdfView:
                 if (isUp) {
@@ -144,15 +224,26 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
                 isUp = !isUp;
                 break;
             case R.id.imageNext:
-                if(currentPage!=pdfView.getPageCount()){
-                    currentPage++;
-                    pdfView.jumpTo(currentPage,true);
+                if (currentPage < numberPage) {
+                    currentPage = currentPage + 1;
+                    pdfView.jumpTo(currentPage, true);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        seekBar.setProgress(currentPage, true);
+                    }
+                    trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + numberPage + " - ");
+                    CheckExit(chuongSachList, currentPage);
                 }
+
                 break;
             case R.id.imagePreVious:
-                if(currentPage!=0){
-                    currentPage--;
-                    pdfView.jumpTo(currentPage,true);
+                if (currentPage > 0) {
+                    currentPage = currentPage - 1;
+                    pdfView.jumpTo(currentPage, true);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        seekBar.setProgress(currentPage, true);
+                    }
+                    trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + numberPage + " - ");
+                    CheckExit(chuongSachList, currentPage);
                 }
                 break;
         }
@@ -172,6 +263,7 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.nightmode:
                 if (isNightMode) {
@@ -179,7 +271,6 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
                     item.setIcon(R.drawable.ic_nightmode_24dp);
                     next.setImageResource(R.drawable.next_white_24);
                     previous.setImageResource(R.drawable.previous_white_24);
-
                     pdfView.loadPages();
                 } else {
                     pdfView.setNightMode(isNightMode);
@@ -191,7 +282,6 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
                 isNightMode = !isNightMode;
                 break;
             case R.id.oritaintion:
-                int currentPage = pdfView.getCurrentPage();
                 pdfView.setSwipeVertical(IsVertical);
                 pdfView.loadPages();
                 pdfView.jumpTo(currentPage, true);
