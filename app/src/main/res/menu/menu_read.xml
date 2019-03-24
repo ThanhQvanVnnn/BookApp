@@ -9,4 +9,8 @@
         android:title="@string/xoay"
         android:icon="@drawable/ic_loop_24dp"
         app:showAsAction="always"/>
+    <item android:id="@+id/chuongsach"
+        android:title="@string/chuongsach"
+        android:icon="@drawable/ic_format_list_numbered_black_24dp"
+        app:showAsAction="always"/>
 </menu>

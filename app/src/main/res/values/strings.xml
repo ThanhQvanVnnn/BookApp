@@ -80,4 +80,6 @@
     <string name="zoom_out">Thu Nhỏ</string>
     <string name="xoay">Xoay</string>
     <string name="page">Trang</string>
+    <string name="chuongsach">Chương Sách</string>
+    <string name="trang_da_luu">Trang Đã lưu</string>
 </resources>

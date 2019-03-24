@@ -1,6 +1,8 @@
 package com.phungthanhquan.bookapp.Object;
 
-public class ChuongSach {
+import java.io.Serializable;
+
+public class ChuongSach implements Serializable {
     private int id_sach;
     private int trang;
     private String tenChuongSach;
