@@ -1,1 +1,2 @@
-include ':app', ':android-pdf-viewer'
+include ':app', ':PDF'
+project(':PDF').projectDir = new File('PDFView')
