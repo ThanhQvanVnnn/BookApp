@@ -53,7 +53,6 @@ public class CustomEditText extends android.support.v7.widget.AppCompatEditText 
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
-
         if(lengthAfter == 0 && start == 0){
             visible = false;
             cauhinh();

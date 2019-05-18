@@ -71,6 +71,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         docsach.setOnClickListener(this);
         chiaSeCamNhan.setOnClickListener(this);
         xemThemDanhGia.setOnClickListener(this);
+        nestedScrollView.getParent().requestChildFocus(nestedScrollView, nestedScrollView);
     }
 
     private void InitControls() {
@@ -192,15 +193,10 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
             @Override
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dsBinhLuan.clear();
-                        presenterBookDetail.xuliHienThiDsDanhGia();
-                        presenterBookDetail.xuliHienThiSach();
-                        refreshLayout.setRefreshing(false);
-                    }
-                },3000);
+                dsBinhLuan.clear();
+                presenterBookDetail.xuliHienThiDsDanhGia();
+                presenterBookDetail.xuliHienThiSach();
+                refreshLayout.setRefreshing(false);
             }});
     }
 }

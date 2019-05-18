@@ -117,7 +117,7 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
                 }
                 phanTramDoc.setText(progresss + "%");
                 pdfView.jumpTo(progress, true);
-                trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + (numberPage - 1) + " - ");
+                trangHienTai.setText(getString(R.string.page) + " " + (currentPage + 1) + "/" + numberPage + " - ");
                 CheckExit(chuongSachList, currentPage);
                 kiemTraDauTrang();
             }
@@ -134,7 +134,7 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
         });
         tenSach.setText(bookRead.getTenSach());
         currentPage = pdfView.getCurrentPage();
-        trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + numberPage + " - ");
+        trangHienTai.setText(getString(R.string.page) + " " + (currentPage + 1) + "/" + numberPage + " - ");
         CheckExit(chuongSachList, currentPage);
     }
 
@@ -304,7 +304,7 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         seekBar.setProgress(currentPage, true);
                     }
-                    trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + (numberPage - 1) + " - ");
+                    trangHienTai.setText(getString(R.string.page) + " " + (currentPage + 1) + "/" + numberPage + "  - ");
                     CheckExit(chuongSachList, currentPage);
                     kiemTraDauTrang();
                 }
@@ -323,7 +323,7 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         seekBar.setProgress(currentPage, true);
                     }
-                    trangHienTai.setText(getString(R.string.page) + " " + currentPage + "/" + (numberPage - 1) + " - ");
+                    trangHienTai.setText(getString(R.string.page) + " " + (currentPage + 1) + "/" + numberPage + " - ");
                     CheckExit(chuongSachList, currentPage);
                     kiemTraDauTrang();
                 }
@@ -352,7 +352,7 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void kiemTraDauTrang() {
-        if (kiemtraTonTai(currentPage, dauTrangList)) {
+        if (kiemtraTonTai(currentPage + 1, dauTrangList)) {
             IsDauTrang = true;
             dautrang.setImageResource(R.drawable.ic_star_yellow_24dp);
         } else {
@@ -367,14 +367,14 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
         String thu = ft.format(dNow);
         Calendar calendar = Calendar.getInstance();
         String currentDay = thu +", "+getString(R.string.ngay)+" "+ DateFormat.getDateInstance().format(calendar.getTime());
-        DauTrang dauTrang = new DauTrang(chuongHienTai, currentPage, currentDay);
+        DauTrang dauTrang = new DauTrang(chuongHienTai, currentPage + 1, currentDay);
         dauTrangList.add(dauTrang);
     }
 
     public void xoaDauTrang() {
         for (Iterator<DauTrang> iterator = dauTrangList.iterator(); iterator.hasNext(); ) {
             DauTrang value = iterator.next();
-            if (value.getTrang() == currentPage) {
+            if (value.getTrang() == (currentPage + 1)) {
                 iterator.remove();
             }
         }
@@ -438,13 +438,13 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
         if (requestCode == 100) {
             if (resultCode == Activity.RESULT_OK) {
                 int result = data.getIntExtra("trang", currentPage);
-                currentPage = result;
-                pdfView.jumpTo(currentPage, true);
+                currentPage = result - 1 ;
+                pdfView.jumpTo(currentPage , true);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     seekBar.setProgress(currentPage, true);
                 }
                 trangHienTai.setText(getString(R.string.page) + " " + (currentPage + 1) + "/" + numberPage + " - ");
-                int progresss = currentPage * 100 / numberPage;
+                int progresss = currentPage * 100 / (numberPage - 1);
                 phanTramDoc.setText(progresss + "%");
             }
             if (resultCode == Activity.RESULT_CANCELED) {

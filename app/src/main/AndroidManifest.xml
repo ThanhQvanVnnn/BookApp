@@ -3,6 +3,9 @@
     package="com.phungthanhquan.bookapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:allowBackup="true"
@@ -49,10 +52,12 @@
         <activity android:name=".View.Activity.HinhThucThanhToan" />
         <activity android:name=".View.Activity.ChonGoiMuaSach" />
         <activity android:name=".View.Activity.XemThemDanhGia" />
-        <activity android:name=".View.Activity.SearchBook" />
-        <activity android:name=".View.Activity.BookDetail" />
+        <activity android:name=".View.Activity.SearchBook"  />
+        <activity android:name=".View.Activity.BookDetail"  />
         <activity android:name=".View.Activity.MainActivity" />
         <activity android:name=".View.Activity.ListBookToChoice" />
+
+
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -32,6 +33,7 @@ import com.phungthanhquan.bookapp.Object.NXB;
 import com.phungthanhquan.bookapp.Object.Slider;
 import com.phungthanhquan.bookapp.Presenter.Fragment.PresenterFragmentTrangChu;
 import com.phungthanhquan.bookapp.R;
+import com.phungthanhquan.bookapp.View.Activity.MainActivity;
 import com.phungthanhquan.bookapp.View.Activity.MarketingChiTiet;
 import com.phungthanhquan.bookapp.View.Activity.SearchBook;
 import com.phungthanhquan.bookapp.View.InterfaceView.InterfaceViewFragmentTrangChu;
@@ -52,9 +54,10 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private RecyclerView hienthiDSNhaXuatBan;
     private TextView allSachMoi;
     private TextView allSachVanHocTrongNuoc;
-    private ImageButton search;
+    private ImageButton search,checkInternet;
     private ProgressBar progressBarLoadMoreKhuyenDoc;
     private NestedScrollView nestedScrollView;
+    private ConstraintLayout layoutInternetDisconnect;
 
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -76,19 +79,29 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private RecycleView_ItemBook_Adapter adapterSachKhuyenDoc;
     private RecyclerView.LayoutManager layoutManagerSachKhuyenDoc;
     private RecycleView_ItemBook_Adapter adapterSachMoi;
-    private  Timer timer;
+    private Timer timer;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trangchu, container, false);
         InitControls(view);
         CreateAdapterAddView();
-        ActivePresenter();
+        InternetConnected();
         RefresherLayout();
-        OnsCroll();
         return view;
     }
 
+    private void InternetConnected(){
+        if(MainActivity.isNetworkConnected(getActivity())){
+            nestedScrollView.setVisibility(View.VISIBLE);
+            ActivePresenter();
+            OnsCroll();
+            layoutInternetDisconnect.setVisibility(View.GONE);
+        }else {
+            nestedScrollView.setVisibility(View.GONE);
+            layoutInternetDisconnect.setVisibility(View.VISIBLE);
+        }
+    }
 
     private void InitControls(View view) {
         //binding id
@@ -105,7 +118,10 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         progressBarLoadMoreKhuyenDoc = view.findViewById(R.id.progressLoadMoreKhuyenDoc);
         nestedScrollView = view.findViewById(R.id.scroll_trangchu);
+        layoutInternetDisconnect = view.findViewById(R.id.layout_internet_disconnect);
+        checkInternet = view.findViewById(R.id.checkInternet);
         //onclick
+        checkInternet.setOnClickListener(this);
         allSachMoi.setOnClickListener(this);
         allSachVanHocTrongNuoc.setOnClickListener(this);
         search.setOnClickListener(this);
@@ -122,29 +138,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         int sizesliderList = sliderList.size();
         timer = new Timer();
         timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                //If there are stories, add them to the table
-//                sliderList.addAll(sliderListReturn);
-//                try {
-//                    // code runs in a thread
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            slider_Adapter.notifyDataSetChanged();
-//                            indicator.setupWithViewPager(slider, true);
-//                            int sizesliderList = sliderList.size();
-//                            timer = new Timer();
-//                            timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
-//                        }
-//                    });
-//                } catch (final Exception ex) {
-//                }
-//            }
-//        }.start();
-
-
     }
 
     @Override
@@ -152,7 +145,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         new Thread() {
             @Override
             public void run() {
-                //If there are stories, add them to the table
                 danhSachSachMoi.addAll(dsSachMoi);
                 try {
                     // code runs in a thread
@@ -175,7 +167,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         new Thread() {
             @Override
             public void run() {
-                //If there are stories, add them to the table
                 danhSachKhuyenDoc.addAll(dsSachKhuyenDoc);
                 try {
                     // code runs in a thread
@@ -198,7 +189,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         new Thread() {
             @Override
             public void run() {
-                //If there are stories, add them to the table
                 danhSachVanHocTrongNuoc.addAll(dsSachVanHocTrongNuoc);
                 try {
                     // code runs in a thread
@@ -221,7 +211,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         new Thread() {
             @Override
             public void run() {
-                //If there are stories, add them to the table
                 danhSachNXB.addAll(dsNXB);
                 try {
                     // code runs in a thread
@@ -243,25 +232,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     public void hienthiAlbumSach(final List<AlbumBook> albumBooks) {
         albumBook.addAll(albumBooks);
         adapterAlbum.notifyDataSetChanged();
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                //If there are stories, add them to the table
-//                albumBook.addAll(albumBooks);
-//                try {
-//                    // code runs in a thread
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            adapterAlbum.notifyDataSetChanged();
-//                        }
-//                    });
-//                } catch (final Exception ex) {
-//                }
-//            }
-//        }.start();
-
-
     }
 
     @Override
@@ -282,28 +252,29 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                 intent = new Intent(getActivity(), SearchBook.class);
                 getActivity().startActivity(intent);
                 break;
+            case R.id.checkInternet:
+                InternetConnected();
+                break;
         }
     }
 
     private void CreateAdapterAddView() {
+        //list book
         sliderList = new ArrayList<>();
-
         albumBook = new ArrayList<>();
         danhSachNXB = new ArrayList<>();
         danhSachVanHocTrongNuoc = new ArrayList<>();
         danhSachKhuyenDoc = new ArrayList<>();
         danhSachSachMoi = new ArrayList<>();
-
+        //list adapter
         slider_Adapter = new ViewPager_Slider_Adapter(getActivity(), sliderList);
         adapterAlbum = new ListAlbum_Adapter(albumBook, getContext());
         adapterNXB = new RecycleView_NXB_Adapter(getActivity(), danhSachNXB);
         adapterVanHocTrongNuoc = new RecycleView_ItemBook_Adapter(getContext(), danhSachVanHocTrongNuoc, 0);
         adapterSachKhuyenDoc = new RecycleView_ItemBook_Adapter(getContext(), danhSachKhuyenDoc, 0);
         adapterSachMoi = new RecycleView_ItemBook_Adapter(getContext(), danhSachSachMoi, 0);
-
         //slider
         slider.setAdapter(slider_Adapter);
-
         //album
         pager_album.setAdapter(adapterAlbum);
         //NXB
@@ -324,7 +295,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         hienthiDSSachMoi.setAdapter(adapterSachMoi);
         hienthiDSSachMoi.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         hienthiDSSachMoi.setHasFixedSize(true);
-
     }
 
     private void ActivePresenter() {
@@ -334,122 +304,37 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         presenterFragmentTrangChu.xuliHienthiDsSachVanHocTrongNuoc();
         presenterFragmentTrangChu.xuliHienThiDsNhaXuatBan();
         presenterFragmentTrangChu.xuliHienthiDsSachKhuyenDoc();
-//       final Thread threadSlider = new Thread(new Runnable() {
-//           @Override
-//           public void run() {
-//               presenterFragmentTrangChu.xulislider();
-//               int sizesliderList = sliderList.size();
-//               Timer timer = new Timer();
-//               timer.scheduleAtFixedRate(new FrgTrangChu.TimeWork(sizesliderList), 4000, 6000);
-//               indicator.setupWithViewPager(slider, true);
-//           }
-//       });
-//       threadSlider.start();
-//        final Thread threadDsSachMoi = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    threadSlider.join();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                presenterFragmentTrangChu.xuliHienthiDsSachMoi();
-//            }
-//        });
-//        threadDsSachMoi.start();
-//        final Thread threadDsAlBumBook = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    threadDsSachMoi.join();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                presenterFragmentTrangChu.xuliHienThiAlBumSach();
-//            }
-//        });
-//        threadDsAlBumBook.start();
-//        final Thread threadDsVanHocTrongNuoc = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    threadDsAlBumBook.join();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                presenterFragmentTrangChu.xuliHienthiDsSachVanHocTrongNuoc();
-//            }
-//        });
-//        threadDsVanHocTrongNuoc.start();
-//        final Thread threadNhaXuatBan = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    threadDsVanHocTrongNuoc.join();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                presenterFragmentTrangChu.xuliHienThiDsNhaXuatBan();
-//            }
-//        });
-//        threadNhaXuatBan.start();
-//        final Thread threadKhuyenDoc = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    threadNhaXuatBan.join();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                presenterFragmentTrangChu.xuliHienthiDsSachKhuyenDoc();
-//            }
-//        });
-//        threadKhuyenDoc.start();
-//        Thread threadOnScroll = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    threadKhuyenDoc.join();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                OnsCroll();
-//            }
-//        });
-//        threadOnScroll.start();
     }
-
+    //refresher layout
     public void RefresherLayout() {
-
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_dark)
                 , getResources().getColor(android.R.color.holo_blue_light)
                 , getResources().getColor(android.R.color.holo_orange_light));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                if(MainActivity.isNetworkConnected(getActivity())){
+                    swipeRefreshLayout.setRefreshing(true);
+                    if(timer!=null) {
                         timer.cancel();
-                        sliderList.clear();
-                        albumBook.clear();
-                        danhSachNXB.clear();
-                        danhSachVanHocTrongNuoc.clear();
-                        danhSachKhuyenDoc.clear();
-                        danhSachSachMoi.clear();
-                        ActivePresenter();
-                        swipeRefreshLayout.setRefreshing(false);
                     }
-                }, 2000);
+                    sliderList.clear();
+                    albumBook.clear();
+                    danhSachNXB.clear();
+                    danhSachVanHocTrongNuoc.clear();
+                    danhSachKhuyenDoc.clear();
+                    danhSachSachMoi.clear();
+                    ActivePresenter();
+                }
+                InternetConnected();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
-
+//timer run slider
     class TimeWork extends TimerTask {
         int sizesliderList;
-
         public TimeWork(int sizesliderList) {
             this.sizesliderList = sizesliderList;
         }
@@ -467,7 +352,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
             });
         }
     }
-
+ // onscroll listener screen
     public void OnsCroll() {
         if (nestedScrollView != null) {
 
@@ -507,14 +392,11 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                             }
                         }, 1000);
 //                        Log.i(TAG, "BOTTOM SCROLL");
-
-
                     }
                 }
             });
         }
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -1,8 +1,10 @@
 package com.phungthanhquan.bookapp.View.Activity;
 
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -21,6 +23,8 @@ import com.phungthanhquan.bookapp.View.Fragment.FrgHoatDong;
 import com.phungthanhquan.bookapp.View.Fragment.FrgTrangChu;
 import com.phungthanhquan.bookapp.View.Fragment.FrgTuSach;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -103,5 +107,21 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         back++;
+    }
+
+    //kiểm tra kết nối internet
+    public static boolean isNetworkConnected(Context c) {
+        ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
+    //kiểm tra có thực sự kết nối được với internet chưa
+    public static boolean isInternetAvailable() {
+        try {
+            InetAddress address = InetAddress.getByName("www.google.com");
+            return !address.equals("");
+        } catch (UnknownHostException e) {
+            // Log error
+        }
+        return false;
     }
 }

@@ -83,4 +83,5 @@
     <string name="chuongsach">Chương Sách</string>
     <string name="trang_da_luu">Trang Đã lưu</string>
     <string name="ngay">Ngày</string>
+    <string name="internet">Internet không hiện có, nhấp thử lại !</string>
 </resources>

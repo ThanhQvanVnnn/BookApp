@@ -17,7 +17,9 @@ import com.phungthanhquan.bookapp.Object.User;
 import com.phungthanhquan.bookapp.Presenter.Fragment.PresenterLogicCaNhan;
 import com.phungthanhquan.bookapp.R;
 import com.phungthanhquan.bookapp.View.Activity.Login;
+import com.phungthanhquan.bookapp.View.Activity.MainActivity;
 import com.phungthanhquan.bookapp.View.InterfaceView.InterfaceViewFragmentCaNhan;
+import com.squareup.haha.perflib.Main;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -81,8 +83,9 @@ public class FrgCaNhan extends Fragment implements View.OnClickListener, Interfa
         songuoidangtheodoi = view.findViewById(R.id.soluong_nguoidangtheodoi);
         sosachdadoc = view.findViewById(R.id.soluong_sachdadoc);
         sosachyeuthich = view.findViewById(R.id.soluong_sachyeuthich);
-
-        presenterLogicCaNhan = new PresenterLogicCaNhan(this);
+        if(MainActivity.isNetworkConnected(getContext())) {
+            presenterLogicCaNhan = new PresenterLogicCaNhan(this);
+        }
     }
     @Override
     public void hienThiThongTinCaNhan(User user) {
