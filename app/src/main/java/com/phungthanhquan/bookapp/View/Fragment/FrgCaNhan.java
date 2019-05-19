@@ -83,9 +83,8 @@ public class FrgCaNhan extends Fragment implements View.OnClickListener, Interfa
         songuoidangtheodoi = view.findViewById(R.id.soluong_nguoidangtheodoi);
         sosachdadoc = view.findViewById(R.id.soluong_sachdadoc);
         sosachyeuthich = view.findViewById(R.id.soluong_sachyeuthich);
-        if(MainActivity.isNetworkConnected(getContext())) {
-            presenterLogicCaNhan = new PresenterLogicCaNhan(this);
-        }
+        presenterLogicCaNhan = new PresenterLogicCaNhan(this);
+
     }
     @Override
     public void hienThiThongTinCaNhan(User user) {

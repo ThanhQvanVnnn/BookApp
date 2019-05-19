@@ -1,6 +1,7 @@
 package com.phungthanhquan.bookapp.View.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -108,26 +110,51 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent;
-        switch (v.getId()){
-            case R.id.button_Login:
-                intent = new Intent(this,MainActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.texview_fogotPass:
-                intent = new Intent(this,ForGotPass.class);
-                startActivity(intent);
-                break;
-            case R.id.textview_register:
-                intent = new Intent(this,Register.class);
-                startActivity(intent);
-                break;
-            case R.id.facebook:
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
-                break;
-            case R.id.google:
-                signIn();
-                break;
+        if(MainActivity.isNetworkConnected(Login.this)) {
+            switch (v.getId()) {
+                case R.id.button_Login:
+                    String userName = nhap_userName.getText().toString();
+                    String password = nhap_passWord.getText().toString();
+                    if(userName.equals("") || password.equals("")){
+                        Toast.makeText(this, R.string.notempty, Toast.LENGTH_SHORT).show();
+                    }else {
+                        ///thông tin user Lấy ở đây
+
+                        //-------------
+                        SharedPreferences.Editor editor = getSharedPreferences("User_Info", MODE_PRIVATE).edit();
+                        editor.putString("name", "Elena");
+                        editor.putInt("idName", 12);
+                        editor.apply();
+                        intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    break;
+                case R.id.texview_fogotPass:
+                    intent = new Intent(this, ForGotPass.class);
+                    startActivity(intent);
+                    break;
+                case R.id.textview_register:
+                    intent = new Intent(this, Register.class);
+                    startActivity(intent);
+                    break;
+                case R.id.facebook:
+                    LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+                    break;
+                case R.id.google:
+                    signIn();
+                    break;
+            }
+        }else {
+            switch (v.getId()) {
+                case R.id.button_Login:
+                case R.id.texview_fogotPass:
+                case R.id.textview_register:
+                case R.id.facebook:
+                case R.id.google:
+                    Toast.makeText(Login.this, R.string.openinternet, Toast.LENGTH_SHORT).show();
+                    break;
+            }
         }
     }
 

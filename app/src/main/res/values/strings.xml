@@ -84,4 +84,6 @@
     <string name="trang_da_luu">Trang Đã lưu</string>
     <string name="ngay">Ngày</string>
     <string name="internet">Internet không hiện có, nhấp thử lại !</string>
+    <string name="openinternet">Bạn cần có Internet để thực hiện chức năng này!</string>
+    <string name="notempty">Vui lòng không bỏ trống!</string>
 </resources>

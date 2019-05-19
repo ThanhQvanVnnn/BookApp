@@ -95,7 +95,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         if(MainActivity.isNetworkConnected(getActivity())){
             nestedScrollView.setVisibility(View.VISIBLE);
             ActivePresenter();
-            OnsCroll();
             layoutInternetDisconnect.setVisibility(View.GONE);
         }else {
             nestedScrollView.setVisibility(View.GONE);
@@ -127,6 +126,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
         search.setOnClickListener(this);
         //presenter logic
         presenterFragmentTrangChu = new PresenterFragmentTrangChu(this);
+        OnsCroll();
     }
 
 
@@ -325,8 +325,19 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                     danhSachKhuyenDoc.clear();
                     danhSachSachMoi.clear();
                     ActivePresenter();
+                    InternetConnected();
+                }else {
+                    if(timer!=null) {
+                        timer.cancel();
+                    }
+                    sliderList.clear();
+                    albumBook.clear();
+                    danhSachNXB.clear();
+                    danhSachVanHocTrongNuoc.clear();
+                    danhSachKhuyenDoc.clear();
+                    danhSachSachMoi.clear();
+                    InternetConnected();
                 }
-                InternetConnected();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

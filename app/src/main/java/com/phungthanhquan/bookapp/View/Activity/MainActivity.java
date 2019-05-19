@@ -1,5 +1,6 @@
 package com.phungthanhquan.bookapp.View.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -47,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         InitControls();
-
+        if(isNetworkConnected(this)){
+            navigationView.setSelectedItemId(R.id.menu_trangchu);
+        }else {
+            navigationView.setSelectedItemId(R.id.menu_tusach);
+        }
     }
 
     private void InitControls() {

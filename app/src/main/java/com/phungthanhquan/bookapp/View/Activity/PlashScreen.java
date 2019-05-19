@@ -11,9 +11,12 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.phungthanhquan.bookapp.R;
+
+import java.io.File;
 
 public class PlashScreen extends AppCompatActivity {
 
@@ -40,15 +43,41 @@ public class PlashScreen extends AppCompatActivity {
                 }
                 finally {
                     PlashScreen.this.runOnUiThread(new Runnable() {
+                        Intent intent;
+                        String packetName = getPackageName();
+                        File f = new File(
+                                "/data/data/" + packetName + "/shared_prefs/User_Info.xml");
                         @Override
                         public void run() {
-                            Intent intent = new Intent(PlashScreen.this,Login.class);
-                            ActivityOptions options = null;
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                                options = (ActivityOptions) ActivityOptions.makeSceneTransitionAnimation(PlashScreen.this,
-                                        logo,"vanchuyenlogo");
+                            if(MainActivity.isNetworkConnected(PlashScreen.this))/*có internet*/{
+                                if (f.exists()){
+                                    intent = new Intent(PlashScreen.this,MainActivity.class);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    intent = new Intent(PlashScreen.this,Login.class);
+                                    ActivityOptions options = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                        options = (ActivityOptions) ActivityOptions.makeSceneTransitionAnimation(PlashScreen.this,
+                                                logo,"vanchuyenlogo");
+                                    }
+                                    startActivity(intent, options.toBundle());
+                                }
+                            }else /*không có internet*/ {
+                                if(f.exists()){
+                                    intent = new Intent(PlashScreen.this,MainActivity.class);
+                                    startActivity(intent);
+                                }else {
+                                    intent = new Intent(PlashScreen.this,Login.class);
+                                    ActivityOptions options = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                        options = (ActivityOptions) ActivityOptions.makeSceneTransitionAnimation(PlashScreen.this,
+                                                logo,"vanchuyenlogo");
+                                    }
+                                    startActivity(intent, options.toBundle());
+                                    Toast.makeText(PlashScreen.this, R.string.openinternet, Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            startActivity(intent, options.toBundle());
                         }
                     });
 
