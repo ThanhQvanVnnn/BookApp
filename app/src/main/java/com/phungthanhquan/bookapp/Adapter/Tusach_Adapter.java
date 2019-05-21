@@ -3,6 +3,7 @@ package com.phungthanhquan.bookapp.Adapter;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -15,12 +16,16 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.phungthanhquan.bookapp.Object.ItemBookCase;
 import com.phungthanhquan.bookapp.R;
 import com.phungthanhquan.bookapp.View.Activity.BookDetail;
+import com.phungthanhquan.bookapp.View.Activity.MainActivity;
+import com.phungthanhquan.bookapp.View.Activity.Read;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 import io.netopen.hotbitmapgg.library.view.RingProgressBar;
@@ -28,6 +33,7 @@ import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 public class Tusach_Adapter extends RecyclerView.Adapter<Tusach_Adapter.ViewHolder> {
     private Context context;
     private List<ItemBookCase> itemBookCaseList;
+    private final String FILENAME_BOOKSTORED = "book_dowload";
 
     public Tusach_Adapter(Context context, List<ItemBookCase> itemBookCaseList) {
         this.context = context;
@@ -43,25 +49,53 @@ public class Tusach_Adapter extends RecyclerView.Adapter<Tusach_Adapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
-        final ItemBookCase itemBookCase = itemBookCaseList.get(position);
-        final int[] progresss = {0};
+         final ItemBookCase itemBookCase = itemBookCaseList.get(position);
         Picasso.get().load(itemBookCase.getUrlImage()).into(viewHolder.imageSach);
         viewHolder.tentacgia.setText(itemBookCase.getTenTacGia());
-       viewHolder.phantram.setProgress((int) itemBookCase.getPhantramdoc());
+        viewHolder.phantram.setProgress((int) itemBookCase.getPhantramdoc());
+        File directory;
+        ContextWrapper cw = new ContextWrapper(context);
+        directory = cw.getDir(FILENAME_BOOKSTORED, Context.MODE_PRIVATE);
+         File file=new File(directory,itemBookCase.getBookID()+".pdf");
+        if(file.exists()){
+            viewHolder.download.setVisibility(View.GONE);
+        }else {
+            viewHolder.download.setVisibility(View.VISIBLE);
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
                 viewHolder.layout_tusachItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, BookDetail.class);
-                        intent.putExtra("image",itemBookCase.getUrlImage());
-                        ActivityOptions options = null;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                            options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
-                                    viewHolder.imageSach,"sharedName");
+                        if(MainActivity.isNetworkConnected(context)) {
+                            Intent intent = new Intent(context, BookDetail.class);
+                            intent.putExtra("image", itemBookCase.getUrlImage());
+                            ActivityOptions options = null;
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                                        viewHolder.imageSach, "sharedName");
+                            }
+                            context.startActivity(intent, options.toBundle());
+                        }else {
+                            //kiểm tra đã tải về chưa, nếu có cho đọc, còn chưa thì phải bật internet để tải..
+                            File directory;
+                            ContextWrapper cw = new ContextWrapper(context);
+                            directory = cw.getDir(FILENAME_BOOKSTORED, Context.MODE_PRIVATE);
+                            File files=new File(directory,itemBookCase.getBookID()+".pdf");
+                            if ( files.exists() )
+                            {
+
+                                Intent intent;
+                                intent = new Intent(context, Read.class);
+                                intent.putExtra("idSach","id0");
+                                context.startActivity(intent);
+                            }
+                            else
+                            {
+                                Toast.makeText(context, R.string.openinternet_readbook, Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        context.startActivity(intent,options.toBundle());
                     }
                 });
             }

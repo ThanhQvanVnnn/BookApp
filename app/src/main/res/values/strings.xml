@@ -85,5 +85,7 @@
     <string name="ngay">Ngày</string>
     <string name="internet">Internet không hiện có, nhấp thử lại !</string>
     <string name="openinternet">Bạn cần có Internet để thực hiện chức năng này!</string>
+    <string name="openinternet_readbook">Bạn cần có Internet để tải sách!</string>
     <string name="notempty">Vui lòng không bỏ trống!</string>
+    <string name="taisach">Đang tải sách, vui lòng chờ !</string>
 </resources>

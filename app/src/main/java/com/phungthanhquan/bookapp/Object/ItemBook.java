@@ -1,5 +1,8 @@
 package com.phungthanhquan.bookapp.Object;
 
+import android.arch.persistence.room.Entity;
+
+@Entity(tableName = "")
 public class ItemBook {
     private String title;
     private String urlImage;

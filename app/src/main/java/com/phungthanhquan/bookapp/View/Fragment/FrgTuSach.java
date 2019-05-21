@@ -91,4 +91,11 @@ public class FrgTuSach extends Fragment implements InterfaceViewFragmentTuSach, 
         itemBookCaseList.addAll(dsSachLayVe);
         tusach_adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        itemBookCaseList.clear();
+        presenterLogicTuSach.xulihienthiDSCuaTuSach();
+    }
 }

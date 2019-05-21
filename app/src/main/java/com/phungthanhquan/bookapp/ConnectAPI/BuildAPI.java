@@ -3,6 +3,7 @@ package com.phungthanhquan.bookapp.ConnectAPI;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -15,6 +16,7 @@ public class BuildAPI {
                     .create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
+                    .client(new OkHttpClient.Builder().build())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
 

@@ -1,6 +1,8 @@
 package com.phungthanhquan.bookapp.View.Activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Parcelable;
@@ -28,6 +30,7 @@ import com.phungthanhquan.bookapp.Object.ChuongSach;
 import com.phungthanhquan.bookapp.Object.DauTrang;
 import com.phungthanhquan.bookapp.R;
 
+import java.io.File;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -56,6 +59,7 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
     int numberPage, currentPage;
     private String chuongHienTai;
     private List<DauTrang> dauTrangList;
+    private final String FILENAME_BOOKSTORED = "book_dowload";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +68,11 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
         initControls();
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        pdfView.fromAsset("clean_code.pdf")
+        File directory;
+        ContextWrapper cw = new ContextWrapper(this);
+        directory = cw.getDir(FILENAME_BOOKSTORED, Context.MODE_PRIVATE);
+        File file=new File(directory,bookRead.getId_sach()+".pdf");
+        pdfView.fromFile(file)
                 .enableSwipe(false) // allows to block changing pages using swipe
                 .swipeHorizontal(true)
                 .enableDoubletap(false)
@@ -179,7 +187,7 @@ public class Read extends AppCompatActivity implements View.OnClickListener {
         chuongSachList.add(chuongSach6);
         chuongSachList.add(chuongSach7);
         chuongSachList.add(chuongSach8);
-        bookRead = new BookRead(0, "Tôi Thấy Hoa Vàng Trên Cỏ Xanh", 15, chuongSachList);
+        bookRead = new BookRead(0, "Tôi Thấy Hoa Vàng Trên Cỏ Xanh", 1, chuongSachList);
     }
 
     public void slideHideHeader(View view) {
