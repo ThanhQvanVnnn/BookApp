@@ -22,6 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -47,6 +48,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -86,6 +90,9 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
     private ProgressDialog progressDialog;
     private ImageButton imageButtonInternet;
     private ConstraintLayout constraintLayoutInternet;
+    private int lenghtFile;
+    private Call<ResponseBody> call;
+    private Callback<ResponseBody> callback;
 
 
     private final String FILENAME_BOOKSTORED = "book_dowload";
@@ -98,13 +105,13 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         setContentView(R.layout.activity_book_detail);
         InitControls();
         RefreshTrang();
+        docsach.setOnClickListener(this);
+        chiaSeCamNhan.setOnClickListener(this);
+        xemThemDanhGia.setOnClickListener(this);
+        nestedScrollView.getParent().requestChildFocus(nestedScrollView, nestedScrollView);
         if(MainActivity.isNetworkConnected(this)) {
             nestedScrollView.setVisibility(View.VISIBLE);
             constraintLayoutInternet.setVisibility(View.GONE);
-            docsach.setOnClickListener(this);
-            chiaSeCamNhan.setOnClickListener(this);
-            xemThemDanhGia.setOnClickListener(this);
-            nestedScrollView.getParent().requestChildFocus(nestedScrollView, nestedScrollView);
         }else {
             constraintLayoutInternet.setVisibility(View.VISIBLE);
             nestedScrollView.setVisibility(View.GONE);
@@ -132,6 +139,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         nestedScrollView = findViewById(R.id.nestedScroll);
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCanceledOnTouchOutside(false);
         constraintLayoutInternet = findViewById(R.id.layout_internet_disconnect);
         imageButtonInternet = findViewById(R.id.checkInternet);
 //        Intent intent = getIntent();
@@ -179,49 +187,91 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         Intent intent;
         switch (v.getId()){
             case R.id.button_chiasecamnhan:
-                dialogCamNhan = new Dialog(this);
-                dialogCamNhan.setContentView(R.layout.dialog_danhgia);
-                TextView txtClose = dialogCamNhan.findViewById(R.id.textview_cancel);
-                txtClose.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogCamNhan.dismiss();
-                    }
-                });
-                dialogCamNhan.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialogCamNhan.show();
-                dialogCamNhan.setCanceledOnTouchOutside(false);
+                if(MainActivity.isNetworkConnected(this)) {
+                    dialogCamNhan = new Dialog(this);
+                    dialogCamNhan.setContentView(R.layout.dialog_danhgia);
+                    TextView txtClose = dialogCamNhan.findViewById(R.id.textview_cancel);
+                    txtClose.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogCamNhan.dismiss();
+                        }
+                    });
+                    dialogCamNhan.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialogCamNhan.show();
+                    dialogCamNhan.setCanceledOnTouchOutside(false);
+                }else {
+                  Toast toast =  Toast.makeText(this, R.string.openinternet, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
                 break;
             case R.id.xemthemdanhgia:
-                 intent = new Intent(this,XemThemDanhGia.class);
-                ActivityOptions options = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    options = ActivityOptions.makeSceneTransitionAnimation(this,
-                            chiaSeCamNhan,"chiasecamnhan");
+                if(MainActivity.isNetworkConnected(this)) {
+                    intent = new Intent(this, XemThemDanhGia.class);
+                    ActivityOptions options = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        options = ActivityOptions.makeSceneTransitionAnimation(this,
+                                chiaSeCamNhan, "chiasecamnhan");
+                    }
+                    startActivity(intent, options.toBundle());
+                }else{
+                    Toast toast = Toast.makeText(this, R.string.openinternet, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 }
-                startActivity(intent,options.toBundle());
                 break;
             case R.id.button_docsach:
-                //nếu chưa mua sách:
+                if(MainActivity.isNetworkConnected(this)) {
+                    //nếu chưa mua sách:
 
-                ///nếu đã mua sách:
-                File directory;
-                ContextWrapper cw = new ContextWrapper(BookDetail.this);
-                directory = cw.getDir(FILENAME_BOOKSTORED, Context.MODE_PRIVATE);
-                File file=new File(directory,ChiTietSach.getId_sach()+".pdf");
+                    ///nếu đã mua sách:
+                    File directory;
+                    ContextWrapper cw = new ContextWrapper(BookDetail.this);
+                    directory = cw.getDir(FILENAME_BOOKSTORED, Context.MODE_PRIVATE);
+                    final File file = new File(directory, ChiTietSach.getId_sach() + ".pdf");
+                    final int file_size = (int) file.length();
 
-                if ( file.exists() )
-                {
-                    intent = new Intent(this, Read.class);
-                    intent.putExtra("idSach","id0");
-                    startActivity(intent);
+                    new AsyncTask<String, Void, Void>() {
+
+                        Intent intent;
+
+                        @Override
+                        protected Void doInBackground(String... strings) {
+                            lenghtFile = checkBookSize(strings[0]);
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                            if (file.exists() && (file_size == lenghtFile)) {
+                                intent = new Intent(BookDetail.this, Read.class);
+                                intent.putExtra("idSach", "id0");
+                                startActivity(intent);
+                            } else if (file.exists() && file_size != lenghtFile) {
+                                file.delete();
+                                downloadbookFile(ChiTietSach.getId_sach() + "", progressDialog);
+                            } else {
+                                if (call == null) {
+                                    downloadbookFile(ChiTietSach.getId_sach() + "", progressDialog);
+                                } else {
+                                    downloadbookFile(ChiTietSach.getId_sach() + "", progressDialog);
+                                }
+                            }
+
+                        }
+                    }.execute("https://sachvui.com/sachvui-686868666888/ebooks/2016/pdf/Sachvui.Com-quang-ganh-lo-di-va-vui-song.pdf");
                 }
-                else
-                {
-                    Toast.makeText(this, file.getPath().toString(), Toast.LENGTH_SHORT).show();
-                    downloadbookFile(ChiTietSach.getId_sach()+"",progressDialog);
+                else {
+                    //nếu chưa mua sách:
+                    Toast toast = Toast.makeText(this, R.string.openinternet_readbook, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 }
                 break;
+
+
             case R.id.checkInternet:
                 if(MainActivity.isNetworkConnected(this)){
                     nestedScrollView.setVisibility(View.VISIBLE);
@@ -251,6 +301,9 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                     DecimalFormat df = new DecimalFormat("###,###.###");
                     df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ITALY));
                     String giatien_format = df.format(book.getGiatien_sach());
+                    //nếu đã mua sách thì set giá tiền bằng đã mua, set chữ màu xanh lá cây........
+
+                    //nếu chưa mua sách
                     giatien.setText(giatien_format + "");
                     menhgia.setPaintFlags(menhgia.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         }else {
@@ -286,6 +339,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         public DownloadBookFileTask(String bookID,ProgressDialog progressDialog) {
             this.bookID = bookID;
             this.dialog = progressDialog;
+
         }
 
         @Override
@@ -307,19 +361,25 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
 
             Log.d("API123", progress[0].second + " ");
 
-            if (progress[0].first == 100)
-                Toast.makeText(getApplicationContext(), "File downloaded successfully", Toast.LENGTH_SHORT).show();
+            if (progress[0].first == 100) {
+                Toast toast = Toast.makeText(getApplicationContext(), "File downloaded successfully", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
 
+
+            }
 
             if (progress[0].second > 0) {
                 int currentProgress = (int) ((double) progress[0].first / (double) progress[0].second * 100);
                 dialog.setProgress(currentProgress);
-
             }
 
             if (progress[0].first == -1) {
-                Toast.makeText(getApplicationContext(), "Download failed", Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getApplicationContext(), "Download failed", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
+
 
         }
 
@@ -330,7 +390,10 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         @Override
         protected void onPostExecute(String result) {
             if (dialog.isShowing()) {
-                dialog.dismiss();
+                dialog.cancel();
+                Intent intent = new Intent(BookDetail.this,Read.class);
+                intent.putExtra("idSach", bookID);
+                startActivity(intent);
             }
         }
     }
@@ -377,6 +440,8 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                 Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
                 downloadBookFileTask.doProgress(pairs);
                 Log.d("kiemtra", "Failed to save the file!");
+                call.cancel();
+                call = null;
                 return;
             } finally {
                 if (inputStream != null) inputStream.close();
@@ -388,16 +453,16 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
             return;
         }
     }
+
     private void downloadbookFile(final String bookID, final ProgressDialog progressDialog) {
+        call = null;
         String urlBook = "/sachvui-686868666888/ebooks/2016/pdf/Sachvui.Com-quang-ganh-lo-di-va-vui-song.pdf";
-        chitietsachMethodAPI.downLoadBook(urlBook).enqueue(new Callback<ResponseBody>() {
+        call = chitietsachMethodAPI.downLoadBook(urlBook);
+        callback = new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Log.d("kiemtra", "Got the body for the file");
-
-                    Toast.makeText(getApplicationContext(), "Downloading...", Toast.LENGTH_SHORT).show();
-
                     downloadBookFileTask = new DownloadBookFileTask(bookID,progressDialog);
                     downloadBookFileTask.execute(response.body());
 
@@ -409,10 +474,26 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 t.printStackTrace();
-                Log.e("kiemtra", t.getMessage());
+                Log.e("kiemtra", "Lỗi retro:"+ t.getMessage());
             }
-        });
-
-
+        };
+       call.enqueue(callback);
     }
+
+    public int checkBookSize(String urls) {
+         int file_size = 0 ;
+         try {
+             URL url = new URL(urls);
+             URLConnection connection = url.openConnection();
+             connection.connect();
+            file_size= connection.getContentLength();
+         } catch (MalformedURLException e) {
+             e.printStackTrace();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+
+        return file_size;
+    }
+
 }

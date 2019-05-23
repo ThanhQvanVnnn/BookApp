@@ -15,12 +15,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 import com.phungthanhquan.bookapp.Adapter.ListAlbum_Adapter;
@@ -249,8 +251,15 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                 startActivity(intent);
                 break;
             case R.id.search_book:
-                intent = new Intent(getActivity(), SearchBook.class);
-                getActivity().startActivity(intent);
+                if(MainActivity.isNetworkConnected(getContext())){
+                    intent = new Intent(getActivity(), SearchBook.class);
+                    getActivity().startActivity(intent);
+                }else {
+                 Toast toast =Toast.makeText(getContext(), R.string.openinternet, Toast.LENGTH_SHORT);
+                 toast.setGravity(Gravity.CENTER, 0, 0);
+                 toast.show();
+                }
+
                 break;
             case R.id.checkInternet:
                 InternetConnected();
@@ -324,7 +333,6 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                     danhSachVanHocTrongNuoc.clear();
                     danhSachKhuyenDoc.clear();
                     danhSachSachMoi.clear();
-                    ActivePresenter();
                     InternetConnected();
                 }else {
                     if(timer!=null) {
@@ -408,6 +416,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
             });
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

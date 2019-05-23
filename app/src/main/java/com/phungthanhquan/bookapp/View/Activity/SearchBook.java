@@ -7,8 +7,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.phungthanhquan.bookapp.Adapter.RecycleView_ItemBook_Adapter;
 import com.phungthanhquan.bookapp.Object.ItemBook;
@@ -75,8 +77,14 @@ public class SearchBook extends AppCompatActivity implements InterfaceViewActivi
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        presenterLogicSearch.xuliTimKiem(s);
-        searchView.onActionViewCollapsed();
+        if(MainActivity.isNetworkConnected(this)) {
+            presenterLogicSearch.xuliTimKiem(s);
+            searchView.onActionViewCollapsed();
+        }else {
+            Toast toast = Toast.makeText(this,R.string.openinternet,Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
         return false;
     }
 

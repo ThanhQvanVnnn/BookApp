@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +94,9 @@ public class Tusach_Adapter extends RecyclerView.Adapter<Tusach_Adapter.ViewHold
                             }
                             else
                             {
-                                Toast.makeText(context, R.string.openinternet_readbook, Toast.LENGTH_SHORT).show();
+                                Toast toast = Toast.makeText(context, R.string.openinternet_readbook, Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
                             }
                         }
                     }

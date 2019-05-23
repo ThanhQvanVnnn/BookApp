@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -116,7 +117,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     String userName = nhap_userName.getText().toString();
                     String password = nhap_passWord.getText().toString();
                     if(userName.equals("") || password.equals("")){
-                        Toast.makeText(this, R.string.notempty, Toast.LENGTH_SHORT).show();
+                        Toast toast = Toast.makeText(this, R.string.notempty, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+
                     }else {
                         ///thông tin user Lấy ở đây
 
@@ -152,7 +156,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 case R.id.textview_register:
                 case R.id.facebook:
                 case R.id.google:
-                    Toast.makeText(Login.this, R.string.openinternet, Toast.LENGTH_SHORT).show();
+                   Toast toast = Toast.makeText(Login.this, R.string.openinternet, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     break;
             }
         }

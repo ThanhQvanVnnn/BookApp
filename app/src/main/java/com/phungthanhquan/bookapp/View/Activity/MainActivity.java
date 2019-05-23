@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -106,8 +107,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (back == 1) {
-            Toast.makeText(getApplicationContext(), R.string.nhan_back,
-                    Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(getApplicationContext(), R.string.nhan_back,
+                    Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         } else if (back > 1) {
             finish();
         }
