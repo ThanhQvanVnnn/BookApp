@@ -88,4 +88,5 @@
     <string name="openinternet_readbook">Bạn cần có Internet để tải sách!</string>
     <string name="notempty">Vui lòng không bỏ trống!</string>
     <string name="taisach">Đang tải sách, vui lòng chờ !</string>
+    <string name="vuilongcho">Vui lòng chờ !</string>
 </resources>

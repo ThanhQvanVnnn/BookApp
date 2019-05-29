@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,6 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.List;
 
-import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 
 public class Tusach_Adapter extends RecyclerView.Adapter<Tusach_Adapter.ViewHolder> {
     private Context context;
@@ -53,7 +53,8 @@ public class Tusach_Adapter extends RecyclerView.Adapter<Tusach_Adapter.ViewHold
          final ItemBookCase itemBookCase = itemBookCaseList.get(position);
         Picasso.get().load(itemBookCase.getUrlImage()).into(viewHolder.imageSach);
         viewHolder.tentacgia.setText(itemBookCase.getTenTacGia());
-        viewHolder.phantram.setProgress((int) itemBookCase.getPhantramdoc());
+        viewHolder.phantram.setText((int) itemBookCase.getPhantramdoc()+"%");
+        viewHolder.phantramprogress.setProgress((int) itemBookCase.getPhantramdoc());
         File directory;
         ContextWrapper cw = new ContextWrapper(context);
         directory = cw.getDir(FILENAME_BOOKSTORED, Context.MODE_PRIVATE);
@@ -113,14 +114,16 @@ public class Tusach_Adapter extends RecyclerView.Adapter<Tusach_Adapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageSach;
         private TextView tentacgia;
-        private RingProgressBar phantram;
+        private TextView phantram;
+        private ProgressBar phantramprogress;
         private FrameLayout download;
         private CardView layout_tusachItem;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageSach = itemView.findViewById(R.id.imageview_sach);
             tentacgia = itemView.findViewById(R.id.textview_tentacgia);
-            phantram = itemView.findViewById(R.id.progress);
+            phantram = itemView.findViewById(R.id.txtProgress);
+            phantramprogress = itemView.findViewById(R.id.progressBar);
             download = itemView.findViewById(R.id.taichua);
             layout_tusachItem = itemView.findViewById(R.id.layout_item_tusach);
         }

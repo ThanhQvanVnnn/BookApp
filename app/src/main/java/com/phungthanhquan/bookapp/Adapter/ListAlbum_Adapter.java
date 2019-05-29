@@ -41,7 +41,7 @@ public class ListAlbum_Adapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return lstImages.size();
+     return lstImages.size();
     }
 
     @Override

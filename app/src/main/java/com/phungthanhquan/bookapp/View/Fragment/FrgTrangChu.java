@@ -233,7 +233,13 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     @Override
     public void hienthiAlbumSach(final List<AlbumBook> albumBooks) {
         albumBook.addAll(albumBooks);
-        adapterAlbum.notifyDataSetChanged();
+        pager_album.notifyDataSetChanged();
+        pager_album.setMediumScaled(true);
+        pager_album.setScrollDuration(200);
+        pager_album.setMaxPageScale(0.8F);
+        pager_album.setMinPageScale(0.5F);
+        pager_album.setCenterPageScaleOffset(30.0F);
+        pager_album.setMinPageScaleOffset(5.0F);
     }
 
     @Override

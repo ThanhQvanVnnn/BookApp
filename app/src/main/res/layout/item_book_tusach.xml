@@ -30,27 +30,44 @@
 
     </ImageView>
 
-    <io.netopen.hotbitmapgg.library.view.RingProgressBar
-        android:id="@+id/progress"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_marginStart="4dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
-        app:max="100"
-        app:ringWidth="1dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.014"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageview_sach"
-        app:layout_constraintVertical_bias="0.0"
-        app:ringColor="#C4BDBD"
-        app:ringProgressColor="@color/colorPrimary"
-        app:style="STROKE"
-        app:textColor="@color/colorPrimary"
-        app:textSize="10sp" />
+        app:layout_constraintVertical_bias="0.0">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:indeterminate="false"
+            android:max="100"
+            android:background="@drawable/background_percent"
+            android:progressDrawable="@drawable/custom_progressbar_drawable"
+             />
+
+        <TextView
+            android:id="@+id/txtProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/progressBar"
+            android:layout_centerInParent="true"
+            android:padding="3dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="10sp" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textview_tentacgia"
@@ -64,7 +81,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/progress"
+        app:layout_constraintStart_toEndOf="@+id/relativeLayout"
         app:layout_constraintTop_toBottomOf="@+id/imageview_sach"
         app:layout_constraintVertical_bias="0.0" />
 

@@ -1,6 +1,7 @@
 package com.phungthanhquan.bookapp.View.Activity;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,8 +11,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.os.Handler;
+
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -57,6 +57,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import dmax.dialog.SpotsDialog;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -93,6 +94,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
     private int lenghtFile;
     private Call<ResponseBody> call;
     private Callback<ResponseBody> callback;
+    public  AlertDialog loadingDialog;
 
 
     private final String FILENAME_BOOKSTORED = "book_dowload";
@@ -142,6 +144,8 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         progressDialog.setCanceledOnTouchOutside(false);
         constraintLayoutInternet = findViewById(R.id.layout_internet_disconnect);
         imageButtonInternet = findViewById(R.id.checkInternet);
+        loadingDialog = new SpotsDialog.Builder().setContext(this).build();
+        loadingDialog.setMessage(getResources().getString(R.string.vuilongcho));
 //        Intent intent = getIntent();
 //        String idSach = intent.getStringExtra("iD");
 //        String urlImage = getIntent().getStringExtra("image");
@@ -237,6 +241,12 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                         Intent intent;
 
                         @Override
+                        protected void onPreExecute() {
+                            loadingDialog.show();
+                            super.onPreExecute();
+                        }
+
+                        @Override
                         protected Void doInBackground(String... strings) {
                             lenghtFile = checkBookSize(strings[0]);
                             return null;
@@ -245,6 +255,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                         @Override
                         protected void onPostExecute(Void aVoid) {
                             super.onPostExecute(aVoid);
+                            loadingDialog.dismiss();
                             if (file.exists() && (file_size == lenghtFile)) {
                                 intent = new Intent(BookDetail.this, Read.class);
                                 intent.putExtra("idSach", "id0");
@@ -259,7 +270,6 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                                     downloadbookFile(ChiTietSach.getId_sach() + "", progressDialog);
                                 }
                             }
-
                         }
                     }.execute("https://sachvui.com/sachvui-686868666888/ebooks/2016/pdf/Sachvui.Com-quang-ganh-lo-di-va-vui-song.pdf");
                 }
@@ -333,7 +343,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
             }});
     }
 
-    private class DownloadBookFileTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, String> {
+    private class DownloadBookFileTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, Boolean> {
         private String bookID;
         private ProgressDialog dialog;
         public DownloadBookFileTask(String bookID,ProgressDialog progressDialog) {
@@ -351,10 +361,11 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         }
 
         @Override
-        protected String doInBackground(ResponseBody... urls) {
+        protected Boolean doInBackground(ResponseBody... urls) {
             //Copy you logic to calculate progress and call
-            saveToDisk(urls[0], bookID+".pdf");
-            return null;
+            Boolean result = false;
+            saveToDisk(result,urls[0], bookID+".pdf");
+            return result;
         }
 
         protected void onProgressUpdate(Pair<Integer, Long>... progress) {
@@ -388,22 +399,25 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(Boolean result) {
             if (dialog.isShowing()) {
+                if (result == true) {
+                    Intent intent = new Intent(BookDetail.this, Read.class);
+                    intent.putExtra("idSach", bookID);
+                    startActivity(intent);
+                }
                 dialog.cancel();
-                Intent intent = new Intent(BookDetail.this,Read.class);
-                intent.putExtra("idSach", bookID);
-                startActivity(intent);
             }
         }
     }
-    private void saveToDisk(ResponseBody body, String filename) {
+    private void saveToDisk(Boolean result,ResponseBody body, String filename) {
+        File pdfFile = null;
         try {
 
             File directory= null;
             ContextWrapper cw = new ContextWrapper(BookDetail.this);
             directory = cw.getDir(FILENAME_BOOKSTORED, Context.MODE_PRIVATE);
-            File pdfFile=new File(directory,filename);
+            pdfFile=new File(directory,filename);
 //            try{
 //                pdfFile.createNewFile();
 //            }catch (IOException e){
@@ -434,20 +448,25 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                 Log.d("kiemtra", pdfFile.getParent());
                 Pair<Integer, Long> pairs = new Pair<>(100, 100L);
                 downloadBookFileTask.doProgress(pairs);
+                result = true;
                 return;
             } catch (IOException e) {
                 e.printStackTrace();
                 Pair<Integer, Long> pairs = new Pair<>(-1, Long.valueOf(-1));
                 downloadBookFileTask.doProgress(pairs);
+                pdfFile.delete();
                 Log.d("kiemtra", "Failed to save the file!");
                 call.cancel();
                 call = null;
+                result = false;
                 return;
             } finally {
                 if (inputStream != null) inputStream.close();
                 if (outputStream != null) outputStream.close();
             }
         } catch (IOException e) {
+            result = false;
+            pdfFile.delete();
             e.printStackTrace();
             Log.d("kiemtra", "Failed to save the file!");
             return;
