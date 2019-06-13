@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class FrgTuSach extends Fragment implements InterfaceViewFragmentTuSach, 
     private PresenterLogicTuSach presenterLogicTuSach;
     private LoadMoreScroll loadMoreScroll;
     private ProgressBar progressBarLoadMore;
+    Toast toast;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tusach,container,false);
@@ -87,7 +89,7 @@ public class FrgTuSach extends Fragment implements InterfaceViewFragmentTuSach, 
     public void hienThiLoadMore(final int tongItem) {
         recyclerView.setNestedScrollingEnabled(false);
         progressBarLoadMore.setVisibility(View.VISIBLE);
-        List<ItemBookCase>    dsSachLayVe = presenterLogicTuSach.xuliLoadMore(tongItem,progressBarLoadMore,recyclerView);
+        List<ItemBookCase> dsSachLayVe = presenterLogicTuSach.xuliLoadMore(tongItem,progressBarLoadMore,recyclerView);
         itemBookCaseList.addAll(dsSachLayVe);
         tusach_adapter.notifyDataSetChanged();
     }
@@ -97,5 +99,14 @@ public class FrgTuSach extends Fragment implements InterfaceViewFragmentTuSach, 
         super.onResume();
         itemBookCaseList.clear();
         presenterLogicTuSach.xulihienthiDSCuaTuSach();
+    }
+    public void showAToast (String st){ //"Toast toast" is declared in the class
+        try{ toast.getView().isShown();     // true if visible
+            toast.setText(st);
+        } catch (Exception e) {         // invisible if exception
+            toast = Toast.makeText(getContext(), st,  Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        }
+        toast.show();  //finally display it
     }
 }

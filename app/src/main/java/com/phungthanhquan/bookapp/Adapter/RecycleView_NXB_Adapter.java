@@ -43,7 +43,7 @@ public class RecycleView_NXB_Adapter extends RecyclerView.Adapter<RecycleView_NX
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
-        NXB nhaxuatban = dsNXB.get(position);
+        final NXB nhaxuatban = dsNXB.get(position);
         Picasso.get().load(nhaxuatban.getImageNXB()).into(viewHolder.imageNXB, new Callback() {
             @Override
             public void onSuccess() {
@@ -61,7 +61,7 @@ public class RecycleView_NXB_Adapter extends RecyclerView.Adapter<RecycleView_NX
                 Intent intent = new Intent(context, ListBookToChoice.class);
                 ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
                         viewHolder.imageNXB,"shareImage");
-                intent.putExtra("title","Nhà Xuất Bản");
+                intent.putExtra("title",nhaxuatban.getTenNXB());
                 intent.putExtra("image",dsNXB.get(position).getImageNXB());
                 context.startActivity(intent,activityOptions.toBundle());
             }

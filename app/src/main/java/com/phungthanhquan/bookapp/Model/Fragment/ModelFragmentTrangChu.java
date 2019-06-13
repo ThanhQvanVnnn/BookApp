@@ -126,12 +126,12 @@ public class ModelFragmentTrangChu {
     //lấy ds NXB
     public List<NXB> getDataDsNhaXuatBan(){
         dsNXB = new ArrayList<>();
-        NXB nxb1 = new NXB("http://static.ybox.vn/2016/04/26/4.jpg");
-        NXB nxb2 = new NXB("https://www.luatvietphong.vn/Uploads/nxb.jpg");
-        NXB nxb3 = new NXB("http://nxbthongtintruyenthong.vn/vi/0/Home/Image?url=%2Ffiles%2Fabout%2Flogo_NXB_resize.jpg");
-        NXB nxb4 = new NXB("https://cdnmedia.thethaovanhoa.vn/2012/11/04/06/49/randomhousepenguin.jpg");
-        NXB nxb5 = new NXB("https://salt.tikicdn.com/ts/publisher/82/d3/ca/60ce90db68e224cc2900be7ae41db451.png");
-        NXB nxb6 = new NXB("http://hieusach.vn/upload/8415/20140123/logo_nxbphunu.jpg");
+        NXB nxb1 = new NXB("http://static.ybox.vn/2016/04/26/4.jpg","Tiền Phong");
+        NXB nxb2 = new NXB("https://www.luatvietphong.vn/Uploads/nxb.jpg","Cây Gõ");
+        NXB nxb3 = new NXB("http://nxbthongtintruyenthong.vn/vi/0/Home/Image?url=%2Ffiles%2Fabout%2Flogo_NXB_resize.jpg","Cháu chào bác ạ");
+        NXB nxb4 = new NXB("https://cdnmedia.thethaovanhoa.vn/2012/11/04/06/49/randomhousepenguin.jpg","Tuổi trẻ");
+        NXB nxb5 = new NXB("https://salt.tikicdn.com/ts/publisher/82/d3/ca/60ce90db68e224cc2900be7ae41db451.png","Doanh Nhân");
+        NXB nxb6 = new NXB("http://hieusach.vn/upload/8415/20140123/logo_nxbphunu.jpg","Tri Thức");
         dsNXB.add(nxb1);
         dsNXB.add(nxb2);
         dsNXB.add(nxb3);

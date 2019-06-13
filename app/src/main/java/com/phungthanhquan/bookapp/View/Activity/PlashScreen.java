@@ -23,6 +23,7 @@ public class PlashScreen extends AppCompatActivity {
 
     private ImageView logo;
     private LottieAnimationView lottieAnimationView;
+    Toast toast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +77,7 @@ public class PlashScreen extends AppCompatActivity {
                                                 logo,"vanchuyenlogo");
                                     }
                                     startActivity(intent, options.toBundle());
-                                    Toast toast = Toast.makeText(PlashScreen.this, R.string.openinternet, Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.CENTER, 0, 0);
-                                    toast.show();
+                                    showAToast(getResources().getString(R.string.openinternet));
                                 }
                             }
                         }
@@ -110,5 +109,14 @@ public class PlashScreen extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         finish();
+    }
+    public void showAToast (String st){ //"Toast toast" is declared in the class
+        try{ toast.getView().isShown();     // true if visible
+            toast.setText(st);
+        } catch (Exception e) {         // invisible if exception
+            toast = Toast.makeText(this, st,  Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        }
+        toast.show();  //finally display it
     }
 }

@@ -95,7 +95,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
     private Call<ResponseBody> call;
     private Callback<ResponseBody> callback;
     public  AlertDialog loadingDialog;
-
+    Toast toast;
 
     private final String FILENAME_BOOKSTORED = "book_dowload";
 
@@ -205,9 +205,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                     dialogCamNhan.show();
                     dialogCamNhan.setCanceledOnTouchOutside(false);
                 }else {
-                  Toast toast =  Toast.makeText(this, R.string.openinternet, Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                 showAToast(getResources().getString(R.string.openinternet));
                 }
                 break;
             case R.id.xemthemdanhgia:
@@ -220,9 +218,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                     }
                     startActivity(intent, options.toBundle());
                 }else{
-                    Toast toast = Toast.makeText(this, R.string.openinternet, Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    showAToast(getResources().getString(R.string.openinternet));
                 }
                 break;
             case R.id.button_docsach:
@@ -275,9 +271,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
                 }
                 else {
                     //nếu chưa mua sách:
-                    Toast toast = Toast.makeText(this, R.string.openinternet_readbook, Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    showAToast(getResources().getString(R.string.openinternet_readbook));
                 }
                 break;
 
@@ -373,11 +367,10 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
             Log.d("API123", progress[0].second + " ");
 
             if (progress[0].first == 100) {
-                Toast toast = Toast.makeText(getApplicationContext(), "File downloaded successfully", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-
-
+               showAToast(getResources().getString(R.string.taisachthanhcong));
+               Intent intent = new Intent(BookDetail.this, Read.class);
+                intent.putExtra("idSach", "id0");
+                startActivity(intent);
             }
 
             if (progress[0].second > 0) {
@@ -386,9 +379,7 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
             }
 
             if (progress[0].first == -1) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Download failed", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+               showAToast(getResources().getString(R.string.taisachthatbai));
             }
 
 
@@ -514,5 +505,13 @@ public class BookDetail extends AppCompatActivity implements InterfaceViewActivi
 
         return file_size;
     }
-
+    public void showAToast (String st){ //"Toast toast" is declared in the class
+        try{ toast.getView().isShown();     // true if visible
+            toast.setText(st);
+        } catch (Exception e) {         // invisible if exception
+            toast = Toast.makeText(this, st,  Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        }
+        toast.show();  //finally display it
+    }
 }

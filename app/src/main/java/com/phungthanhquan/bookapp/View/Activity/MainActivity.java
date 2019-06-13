@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private int back = 1 ;
 
     final FragmentManager fragmentManager =getSupportFragmentManager();
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,10 +108,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (back == 1) {
-            Toast toast = Toast.makeText(getApplicationContext(), R.string.nhan_back,
-                    Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+          showAToast(getResources().getString(R.string.nhan_back));
         } else if (back > 1) {
             finish();
         }
@@ -131,5 +129,14 @@ public class MainActivity extends AppCompatActivity {
             // Log error
         }
         return false;
+    }
+    public void showAToast (String st){ //"Toast toast" is declared in the class
+        try{ toast.getView().isShown();     // true if visible
+            toast.setText(st);
+        } catch (Exception e) {         // invisible if exception
+            toast = Toast.makeText(this, st,  Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        }
+        toast.show();  //finally display it
     }
 }

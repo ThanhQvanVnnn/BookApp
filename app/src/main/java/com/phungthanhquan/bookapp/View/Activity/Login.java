@@ -45,7 +45,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private ImageView google;
     private GoogleSignInClient mGoogleSignInClient;
     private final int RC_SIGN_IN = 111;
-
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,10 +117,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     String userName = nhap_userName.getText().toString();
                     String password = nhap_passWord.getText().toString();
                     if(userName.equals("") || password.equals("")){
-                        Toast toast = Toast.makeText(this, R.string.notempty, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-
+                       showAToast(getResources().getString(R.string.notempty));
                     }else {
                         ///thông tin user Lấy ở đây
 
@@ -156,9 +153,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 case R.id.textview_register:
                 case R.id.facebook:
                 case R.id.google:
-                   Toast toast = Toast.makeText(Login.this, R.string.openinternet, Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                  showAToast(getResources().getString(R.string.openinternet));
                     break;
             }
         }
@@ -194,5 +189,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+    public void showAToast (String st){ //"Toast toast" is declared in the class
+        try{ toast.getView().isShown();     // true if visible
+            toast.setText(st);
+        } catch (Exception e) {         // invisible if exception
+            toast = Toast.makeText(this, st,  Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        }
+        toast.show();  //finally display it
     }
 }

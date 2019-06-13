@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -35,6 +36,7 @@ public class Tusach_Adapter extends RecyclerView.Adapter<Tusach_Adapter.ViewHold
     private Context context;
     private List<ItemBookCase> itemBookCaseList;
     private final String FILENAME_BOOKSTORED = "book_dowload";
+    Toast toast;
 
     public Tusach_Adapter(Context context, List<ItemBookCase> itemBookCaseList) {
         this.context = context;
@@ -95,9 +97,7 @@ public class Tusach_Adapter extends RecyclerView.Adapter<Tusach_Adapter.ViewHold
                             }
                             else
                             {
-                                Toast toast = Toast.makeText(context, R.string.openinternet_readbook, Toast.LENGTH_SHORT);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
+                                showAToast(context.getResources().getString(R.string.openinternet_readbook));
                             }
                         }
                     }
@@ -105,7 +105,15 @@ public class Tusach_Adapter extends RecyclerView.Adapter<Tusach_Adapter.ViewHold
             }
         }).start();
     }
-
+    public void showAToast (String st){ //"Toast toast" is declared in the class
+        try{ toast.getView().isShown();     // true if visible
+            toast.setText(st);
+        } catch (Exception e) {         // invisible if exception
+            toast = Toast.makeText(context, st,  Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        }
+        toast.show();  //finally display it
+    }
     @Override
     public int getItemCount() {
         return itemBookCaseList.size();
@@ -117,7 +125,7 @@ public class Tusach_Adapter extends RecyclerView.Adapter<Tusach_Adapter.ViewHold
         private TextView phantram;
         private ProgressBar phantramprogress;
         private FrameLayout download;
-        private CardView layout_tusachItem;
+        private ConstraintLayout layout_tusachItem;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageSach = itemView.findViewById(R.id.imageview_sach);

@@ -28,6 +28,7 @@ public class SearchBook extends AppCompatActivity implements InterfaceViewActivi
     private RecycleView_ItemBook_Adapter recycleViewItemBookAdapter;
     PresenterLogicSearch presenterLogicSearch;
     private SearchView searchView;
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +82,7 @@ public class SearchBook extends AppCompatActivity implements InterfaceViewActivi
             presenterLogicSearch.xuliTimKiem(s);
             searchView.onActionViewCollapsed();
         }else {
-            Toast toast = Toast.makeText(this,R.string.openinternet,Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            showAToast(getResources().getString(R.string.openinternet));
         }
         return false;
     }
@@ -97,5 +96,14 @@ public class SearchBook extends AppCompatActivity implements InterfaceViewActivi
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+    public void showAToast (String st){ //"Toast toast" is declared in the class
+        try{ toast.getView().isShown();     // true if visible
+            toast.setText(st);
+        } catch (Exception e) {         // invisible if exception
+            toast = Toast.makeText(this, st,  Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        }
+        toast.show();  //finally display it
     }
 }

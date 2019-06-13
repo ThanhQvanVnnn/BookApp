@@ -3,11 +3,11 @@ package com.phungthanhquan.bookapp.Object;
 public class NXB {
 
     private String imageNXB;
-//    private String tenNXB;
+    private String tenNXB;
 
-    public NXB(String imageNXB) {
+    public NXB(String imageNXB, String tenNXB) {
         this.imageNXB = imageNXB;
-//        this.tenNXB = tenNXB;
+        this.tenNXB = tenNXB;
     }
 
     public String getImageNXB() {
@@ -18,11 +18,11 @@ public class NXB {
         this.imageNXB = imageNXB;
     }
 
-//    public String getTenNXB() {
-//        return tenNXB;
-//    }
-//
-//    public void setTenNXB(String tenNXB) {
-//        this.tenNXB = tenNXB;
-//    }
+    public String getTenNXB() {
+        return tenNXB;
+    }
+
+    public void setTenNXB(String tenNXB) {
+        this.tenNXB = tenNXB;
+    }
 }

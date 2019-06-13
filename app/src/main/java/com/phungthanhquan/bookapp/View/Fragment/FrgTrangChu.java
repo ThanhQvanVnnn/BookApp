@@ -82,6 +82,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     private RecyclerView.LayoutManager layoutManagerSachKhuyenDoc;
     private RecycleView_ItemBook_Adapter adapterSachMoi;
     private Timer timer;
+    Toast toast;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -261,9 +262,7 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
                     intent = new Intent(getActivity(), SearchBook.class);
                     getActivity().startActivity(intent);
                 }else {
-                 Toast toast =Toast.makeText(getContext(), R.string.openinternet, Toast.LENGTH_SHORT);
-                 toast.setGravity(Gravity.CENTER, 0, 0);
-                 toast.show();
+                 showAToast(getContext().getResources().getString(R.string.openinternet));
                 }
 
                 break;
@@ -427,6 +426,15 @@ public class FrgTrangChu extends Fragment implements InterfaceViewFragmentTrangC
     public void onDestroy() {
         super.onDestroy();
         timer.cancel();
+    }
+    public void showAToast (String st){ //"Toast toast" is declared in the class
+        try{ toast.getView().isShown();     // true if visible
+            toast.setText(st);
+        } catch (Exception e) {         // invisible if exception
+            toast = Toast.makeText(getContext(), st,  Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        }
+        toast.show();  //finally display it
     }
 }
 

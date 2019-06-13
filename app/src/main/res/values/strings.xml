@@ -89,4 +89,6 @@
     <string name="notempty">Vui lòng không bỏ trống!</string>
     <string name="taisach">Đang tải sách, vui lòng chờ !</string>
     <string name="vuilongcho">Vui lòng chờ !</string>
+    <string name="taisachthanhcong">Tải sách thành công</string>
+    <string name="taisachthatbai">Tải Sách thất bại</string>
 </resources>

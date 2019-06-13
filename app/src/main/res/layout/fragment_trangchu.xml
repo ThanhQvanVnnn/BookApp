@@ -25,7 +25,6 @@
                 <android.support.v7.widget.Toolbar
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/search_background"
                     app:layout_collapseMode="pin">
 
                     <LinearLayout
@@ -184,7 +183,6 @@
 
                             <com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager
                                 android:id="@+id/horizontal_cycle"
-
                                 android:layout_width="match_parent"
                                 android:layout_height="290dp"
                                 app:icvp_center_page_scale_offset="30dp"

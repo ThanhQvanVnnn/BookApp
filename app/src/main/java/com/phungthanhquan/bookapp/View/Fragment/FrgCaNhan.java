@@ -1,10 +1,14 @@
 package com.phungthanhquan.bookapp.View.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.phungthanhquan.bookapp.Object.User;
 import com.phungthanhquan.bookapp.Presenter.Fragment.PresenterLogicCaNhan;
@@ -21,6 +26,8 @@ import com.phungthanhquan.bookapp.View.Activity.MainActivity;
 import com.phungthanhquan.bookapp.View.InterfaceView.InterfaceViewFragmentCaNhan;
 import com.squareup.haha.perflib.Main;
 import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -44,6 +51,8 @@ public class FrgCaNhan extends Fragment implements View.OnClickListener, Interfa
     private TextView sosachyeuthich;
 
     private PresenterLogicCaNhan presenterLogicCaNhan;
+    private final int SELECT_IMAGE = 100;
+    Toast toast;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -100,10 +109,13 @@ public class FrgCaNhan extends Fragment implements View.OnClickListener, Interfa
     }
     @Override
     public void onClick(View v) {
-
+        Intent intent;
         switch (v.getId()){
             case R.id.thaydoichandung:
-
+                 intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"),SELECT_IMAGE);
                 break;
             case R.id.nguoitheodoi:
 
@@ -124,12 +136,38 @@ public class FrgCaNhan extends Fragment implements View.OnClickListener, Interfa
 
                 break;
             case R.id.dangxuat:
-                Intent intent = new Intent(getContext(), Login.class);
+                intent = new Intent(getContext(), Login.class);
                 startActivity(intent);
                 getActivity().finish();
                 break;
         }
     }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                        anhdaidien.setImageBitmap(bitmap);
+                        anhdaidienBackGround.setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED)  {
+                Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
-
+    public void showAToast (String st){ //"Toast toast" is declared in the class
+        try{ toast.getView().isShown();     // true if visible
+            toast.setText(st);
+        } catch (Exception e) {         // invisible if exception
+            toast = Toast.makeText(getContext(), st,  Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        }
+        toast.show();  //finally display it
+    }
 }
